@@ -22,13 +22,17 @@
 					@foreach($kategorien as $kategorie)
 						<h3>{{ $kategorie->name }}</h3>
 							<table class="table">
-							<tr><th>Name</th><th>Preis</th><th>Aktionen</th></tr>
+							<tr>
+								<th class="col-md-4">Name</th>
+								<th class="col-md-4">Preis</th>
+								<th class="col-md-4">Aktionen</th>
+							</tr>
 							@foreach( \App\Produkt::where('category', $kategorie->id)->get() as $produkt)
 							<tr>
 								<td>{{ $produkt->name }}</td>
 								<td>{{ number_format($produkt->price, 2, ',', '.') }}€</td>
 								<td>
-									<a href="{{ route('Verwaltung.Produkte.Bearbeiten', ['id'=>$produkt->id]) }}">Bearbeiten</a> | <a href="{{ route('Verwaltung.Produkte.Entfernen', ['id'=>$produkt->id]) }}" class="text-danger">Löschen</a>
+									<a href="{{ route('Verwaltung.Produkte.Bearbeiten', ['id'=>$produkt->id]) }}">Bearbeiten</a> <a href="{{ route('Verwaltung.Produkte.Entfernen', ['id'=>$produkt->id]) }}" class="text-danger">Löschen</a>
 								</td>
 							</tr>
 							@endforeach
