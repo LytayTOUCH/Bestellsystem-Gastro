@@ -8,30 +8,30 @@
     <div class="col-md-12">
         <div class="card card-default">
             <div class="card-body">
-                <h3>Neue Bestellung</h3>
-
                 @foreach($selectedCatsAndProds as $CatWithProd)
-                <div id="accordion">
-                    <div class="card">
-                        <div class="card-header" id="heading">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{$CatWithProd['name']}}" aria-expanded="false" aria-controls="collapse{{$CatWithProd['name']}}">
-                                    {{$CatWithProd['name']}}
-                                </button>
-                            </h5>
-                        </div>
+                
+                    
+                   <h3> {{$CatWithProd['name']}} </h3>
+                    <form method="POST" action="" class="form">
 
-                        <div id="collapse{{$CatWithProd['name']}}" class="collapse" aria-labelledby="heading{{$CatWithProd['name']}}" data-parent="#accordion">
-                            <div class="card-body">
-                                <ul>
-                                    @foreach($CatWithProd['produkte'] as $Product)
-                                        <li>{{$Product->name}}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <table class="table table-condensed table-striped">
+                        <tr style="width: 100%;">
+                            <th style="width: 60px;">Anzahl</th>
+                            <th>Produktname</th>
+                        </tr>
+                        @foreach($CatWithProd['produkte'] as $Product)
+                        <tr>
+                            <td>
+                                <input type="number" name="anzahl[{{$Product->id}}]" class="form-control" value="0" min="0" max="1000">
+                            </td>
+                            <td>
+                                <label for="anzahl[{{$Product->id}}]">{{$Product->name}}</label>
+                            </td>
+                        </tr>
+
+                        @endforeach
+                    </table>
+                    </form>
                 @endforeach
             </div>
         </div>
