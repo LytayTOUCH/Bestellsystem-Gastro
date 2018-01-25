@@ -13,8 +13,10 @@ class CreateTischesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tisches', function (Blueprint $table) {
+        Schema::create('Tische', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('Name');
+            $table->boolean('Besetzt')->default(false);
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateTischesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tisches');
+        Schema::dropIfExists('Tische');
     }
 }

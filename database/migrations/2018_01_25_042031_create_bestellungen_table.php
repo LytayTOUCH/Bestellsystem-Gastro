@@ -13,11 +13,6 @@ class CreateBestellungenTable extends Migration
      */
     public function up()
     {
-        Schema::create('Tische', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('Name');
-            $table->string('Beschreibung')->nullable(true);
-        });
 
         Schema::create('Kunden', function (Blueprint $table) {
             $table->integer('Tisch_ID');

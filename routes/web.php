@@ -31,6 +31,11 @@ Route::prefix('verwaltung')->group(function() {
 
 	Route::prefix('tische')->group(function() {
 		Route::get('/', 'Verwaltung\TischController@index')->name('Verwaltung.Tische');
+		Route::get('/erstellen', 'Verwaltung\TischController@erstellen')->name('Verwaltung.Tische.Erstellen');
+		Route::post('/erstellen', 'Verwaltung\TischController@erstellenSpeichern')->name('Verwaltung.Tische.ErstellenSpeichern');
+		Route::get('/entfernen/{id}', 'Verwaltung\TischController@entfernen')->name('Verwaltung.Tische.Entfernen');
+		Route::get('/reset/{id}', 'Verwaltung\TischController@reset')->name('Verwaltung.Tische.Reset');
+		Route::get('/reset_all', 'Verwaltung\TischController@reset_all')->name('Verwaltung.Tische.ResetAll');
 	});
 
 	Route::prefix('produkte')->group(function() {
