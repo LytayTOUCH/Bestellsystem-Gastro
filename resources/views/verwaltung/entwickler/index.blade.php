@@ -20,6 +20,8 @@
 					<li>Einrichten von Bedienplätzen für die Gastverwaltung</li>
 					<li>Bestellungen aufnehmbar machen und visualisieren</li>
 					<li>Verrechnen von Bestellungen eines Gastes zum Ende</li>
+					<li>Statistiken zur Marketing-Analyse</li>
+					<li>Verfügbarkeit von Produkten</li>
 				</ul>
 			</div>
 		</div>

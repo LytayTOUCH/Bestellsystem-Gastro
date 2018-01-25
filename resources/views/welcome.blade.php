@@ -38,7 +38,8 @@
             </div>
             @else
             <div class="card-body">
-                <h5 class="card-title">Schnellstart</h5>
+                <h5 class="card-title">Hallo {{ explode(" ", Auth::user()->name)[0] }}!</h5>
+                <i>Es gab keine neuen Benachrichtigungen</i>
             </div>
             @endguest
         </div>
@@ -55,7 +56,7 @@
                 </p>
 
                 @else
-                    <h1>Hallo {{ explode(" ", Auth::user()->name)[0] }}!</h1>
+                    <h1>Willkommen!</h1>
                     <p>
                         Da du bestimmt direkt mit der Benutzung loslegen möchtest, kannst du mittels der Navigation zwischen verschiedenen Funktionen umschalten. Und noch viel besser: Diese Webseite ist für Mobile Endgeräte optimiert - das heißt, dass du die Software auch auf deinem Tablet, einem Smartphone oder normal über einen PC benutzen kannst. <i class="em-svg em-iphone"></i>
                     </p>

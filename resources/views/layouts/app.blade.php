@@ -10,6 +10,8 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link href="{{ asset('favicon.ico') }}" rel="icon" type="image/x-icon" />
+
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
@@ -26,6 +28,9 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/') }}">Startseite</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/bestellungen') }}">Bestellungen</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/verwaltung') }}">Verwaltung</a>

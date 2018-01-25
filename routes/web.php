@@ -19,6 +19,11 @@ Route::get('/home', function () {
     return view('welcome');
 });
 
+Route::prefix('bestellungen')->group(function() {
+	Route::get('/', 'Bestellungen\BestellungenController@index')->name('Bestellungen');
+	Route::get('/test', 'Bestellungen\BestellungenController@NeueBestellung')->name('Bestellungen.Aufnehmen');
+});
+
 // Verwaltung
 Route::prefix('verwaltung')->group(function() {
 	Route::get('/', 'Verwaltung\VerwaltungController@index')->name('Verwaltung');
@@ -47,6 +52,8 @@ Route::prefix('verwaltung')->group(function() {
 
 // Registration and forgot password are disabled
 // Auth::routes();
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::get('login', function() {
+	return view('welcome');
+})->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
