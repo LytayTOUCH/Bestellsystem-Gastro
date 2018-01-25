@@ -30,7 +30,7 @@
 					</div>
 					<div class="form-group">
 						<label for="categoryDescription">Hinweis / Beschreibung <small>(Optional)</small></label>
-						<input type="text" id="categoryDescription" name="categoryDescription" class="form-control">
+						<input type="text" id="categoryDescription" name="categoryDescription" class="form-control" value="{{ ($isNewCategoryDataset == false) ? $kategorie->description : '' }}">
 						<small class="text-muted form-text">
 							Die Beschreibung erleichtert neuen Mitarbeitern das Einordnen von Produkten in eine Kategorie. 
 						</small>

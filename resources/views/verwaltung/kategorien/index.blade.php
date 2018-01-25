@@ -22,7 +22,11 @@
 						@foreach($kategorien as $kategorie)
 							<tr>
 								<td>{{$kategorie->name}}</td>
-								<td><a href="{{ route('Verwaltung.Kategorien.Bearbeiten', ['id'=>$kategorie->id]) }}">Bearbeiten</a> | <a href="{{ route('Verwaltung.Kategorien.Entfernen', ['id'=>$kategorie->id]) }}" class="text-danger">Löschen</a></td>
+								<td><a href="{{ route('Verwaltung.Kategorien.Bearbeiten', ['id'=>$kategorie->id]) }}">Bearbeiten</a>
+								@if(\App\Kategorie::all()->count() > 1)
+								 | <a href="{{ route('Verwaltung.Kategorien.Entfernen', ['id'=>$kategorie->id]) }}" class="text-danger">Löschen</a>
+								@endif
+								</td>
 							</tr>
 						@endforeach
 					@endif

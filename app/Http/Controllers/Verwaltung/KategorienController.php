@@ -5,6 +5,7 @@ use App\Http\Requests\KategorieSpeichern;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Kategorie;
+use App\Produkt;
 
 class KategorienController extends AuthController
 {
@@ -44,11 +45,21 @@ class KategorienController extends AuthController
     }
 
     public function entfernen($id) {
-    	$checkCategory = Kategorie::where('id', '=', $id)->first();
-    	if($checkCategory !== null) {
-    		$category = Kategorie::find($id);
-    		$category->delete();
-    	}
+        $categoryCount = Kategorie::all()->count();
+
+        if($categoryCount > 1) {
+        	$checkCategory = Kategorie::where('id', '=', $id)->first();
+
+        	if($checkCategory !== null) {
+        		$category = Kategorie::find($id);
+        		$category->delete();
+
+                $products = Produkt::where('category', $id)
+                    ->update(['category'=>Kategorie::all()->first()->id]);
+
+        	}
+        }
+
     	return redirect(route("Verwaltung.Kategorien"));
     }
 }

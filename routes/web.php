@@ -23,7 +23,12 @@ Route::get('/home', function () {
 Route::prefix('verwaltung')->group(function() {
 	Route::get('/', 'Verwaltung\VerwaltungController@index')->name('Verwaltung');
 	Route::prefix('produkte')->group(function() {
-		Route::get('/', 'Verwaltung\ProdukteController@index')->name('Verwaltung.Produkte');
+		Route::get('/', 'Verwaltung\ProduktController@index')->name('Verwaltung.Produkte');
+		Route::get('/erstellen', 'Verwaltung\ProduktController@erstellen')->name('Verwaltung.Produkte.Erstellen');
+		Route::post('/erstellen', 'Verwaltung\ProduktController@erstellenSpeichern')->name('Verwaltung.Produkte.ErstellenSpeichern');
+		Route::get('/bearbeiten/{id}', 'Verwaltung\ProduktController@bearbeiten')->name('Verwaltung.Produkte.Bearbeiten');
+		Route::post('/bearbeiten/{id}', 'Verwaltung\ProduktController@bearbeitenSpeichern')->name('Verwaltung.Produkte.BearbeitenSpeichern');
+		Route::get('/entfernen/{id}', 'Verwaltung\ProduktController@entfernen')->name('Verwaltung.Produkte.Entfernen');
 	});
 
 	// Kategorien für Produkte
