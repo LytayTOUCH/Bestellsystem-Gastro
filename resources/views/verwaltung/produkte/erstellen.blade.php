@@ -27,7 +27,7 @@
 						{{ csrf_field() }}
 						<div class="form-group">
 							<label for="productName">Name des Produktes</label>
-							<input type="text" id="productName" name="productName" class="form-control" value="{{ ($isNewCategoryDataset == false) ? $product->name : '' }}" placeholder="Kartoffelchips">
+							<input type="text" id="productName" name="productName" class="form-control" value="{{ ($isNewCategoryDataset == false) ? $product->name : old('productName') }}" placeholder="Kartoffelchips">
 							@if ($errors->has('productName'))
 	                            <span class="form-text text-danger">
 	                                <small>{{ $errors->first('productName') }}</small>
@@ -36,7 +36,7 @@
 						</div>
 						<div class="form-group">
 							<label for="productDescription">Beschreibung <small>(Optional)</small></label>
-							<textarea type="text" id="productDescription" name="productDescription" class="form-control" placeholder="Eine passende Beschreibung...">{{ ($isNewCategoryDataset == false) ? $product->description : '' }}</textarea> 
+							<textarea type="text" id="productDescription" name="productDescription" class="form-control" placeholder="Eine passende Beschreibung...">{{ ($isNewCategoryDataset == false) ? $product->description : old('productDescription') }}</textarea> 
 							@if ($errors->has('productDescription'))
 	                            <span class="form-text text-danger">
 	                                <small>{{ $errors->first('productDescription') }}</small>
@@ -45,7 +45,7 @@
 						</div>
 						<div class="form-group">
 							<label for="productPrice">Preis</label>
-							<input type="number" step="any" id="productPrice" name="productPrice" class="form-control" value="{{ ($isNewCategoryDataset == false) ? $product->price : '' }}" placeholder="12,30">
+							<input type="number" step="any" id="productPrice" name="productPrice" class="form-control" value="{{ ($isNewCategoryDataset == false) ? $product->price : old('productPrice') }}" placeholder="12,30">
 							@if ($errors->has('productPrice'))
 	                            <span class="form-text text-danger">
 	                                <small>{{ $errors->first('productPrice') }}</small>
