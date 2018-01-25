@@ -17,7 +17,7 @@
 				<ul>
 					<li>Benutzerverwaltung</li>
 					<li>Rabatte (Zeitbedingt und Kategorienbasiert)</li>
-					<li>Einrichten von Bedienplätzen für die Gastverwaltung</li>
+					<li><s>Einrichten von Bedienplätzen für die Gastverwaltung</s></li>
 					<li>Bestellungen aufnehmbar machen und visualisieren</li>
 					<li>Verrechnen von Bestellungen eines Gastes zum Ende</li>
 					<li>Statistiken zur Marketing-Analyse</li>
