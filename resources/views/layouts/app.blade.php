@@ -57,6 +57,12 @@
             </div>
         </nav>
 
+        @if(env('APP_ENV') == "development")
+            <div class="alert alert-info" role="alert">
+              Du befindest dich auf einem Entwicklungssystem
+            </div>
+        @endif
+
         <br>
 
         <div class="container">
