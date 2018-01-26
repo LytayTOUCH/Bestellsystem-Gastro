@@ -6,6 +6,7 @@ use \App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use \App\Bestellung;
 use \App\Kategorie;
+use \App\Tisch;
 use \App\Produkt;
 
 class BestellungenController extends AuthController
@@ -16,6 +17,7 @@ class BestellungenController extends AuthController
 
     public function NeueBestellung() {
     	$kategorien = Kategorie::all();
+        $tische = Tisch::all();
     	$selectedAuswahl = [];
 
     	foreach($kategorien as $kategorie) {
@@ -23,13 +25,16 @@ class BestellungenController extends AuthController
     		$selectedAuswahl[$kategorie->name] = ["id" => $kategorie->id, "name" => $kategorie->name, "produkte" => $produkte];
     	}
 
-    	return view('bestellungen.bestellung', ['selectedCatsAndProds' => $selectedAuswahl]);
+    	return view('bestellungen.bestellung', ['selectedCatsAndProds' => $selectedAuswahl, 'tische' => $tische]);
     	// Test zur korrekten Zuordnung des Arrays
     	# print_r($selectedAuswahl);
     }
 
-    public function NeueBestellungSpeichern() {
-
+    public function NeueBestellungSpeichern(Request $request) {
+/*        echo $request->input('customerTable');
+        echo "<br>";
+        print_r($request->input('anzahl'));*/
+        return redirect(route('Bestellungen'));
     }
 
     public function BestellungStornieren() {

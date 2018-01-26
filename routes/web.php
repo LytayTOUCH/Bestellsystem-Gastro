@@ -21,7 +21,8 @@ Route::get('/home', function () {
 
 Route::prefix('bestellungen')->group(function() {
 	Route::get('/', 'Bestellungen\BestellungenController@index')->name('Bestellungen');
-	Route::get('/test', 'Bestellungen\BestellungenController@NeueBestellung')->name('Bestellungen.Aufnehmen');
+	Route::get('/neu', 'Bestellungen\BestellungenController@NeueBestellung')->name('Bestellungen.Aufnehmen');
+	Route::post('/neu', 'Bestellungen\BestellungenController@NeueBestellungSpeichern')->name('Bestellungen.AufnehmenSpeichern');
 });
 
 // Verwaltung

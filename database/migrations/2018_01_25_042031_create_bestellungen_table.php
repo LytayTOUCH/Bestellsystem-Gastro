@@ -14,6 +14,8 @@ class CreateBestellungenTable extends Migration
     public function up()
     {
 
+        // Abläufe s. https://github.com/CloudMaker97/Bestellsystem-Gastro/wiki/Bestellabl%C3%A4ufe
+        
         Schema::create('Kunden', function (Blueprint $table) {
             $table->integer('Tisch_ID');
             $table->boolean('Abgerechnet')->default(false);
@@ -48,10 +50,9 @@ class CreateBestellungenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Bestellungen');
-        Schema::dropIfExists('Bestellungen_Produkte');
-        Schema::dropIfExists('Tische');
         Schema::dropIfExists('Kunden');
         Schema::dropIfExists('Kunden_Bestellungen');
+        Schema::dropIfExists('Bestellungen');
+        Schema::dropIfExists('Bestellungen_Produkte');
     }
 }
