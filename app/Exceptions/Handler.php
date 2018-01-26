@@ -13,7 +13,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        "Symfony\Component\Debug\Exception\FatalThrowableError",
     ];
 
     /**
@@ -36,6 +36,12 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if(app('env') != 'development') {
+            if (app()->bound('sentry') && $this->shouldReport($exception)) {
+                app('sentry')->captureException($exception);
+            }
+        }
+
         parent::report($exception);
     }
 
@@ -48,6 +54,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        //return view('errors.500');
         return parent::render($request, $exception);
     }
 }
