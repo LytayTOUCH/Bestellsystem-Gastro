@@ -9,7 +9,17 @@
         <div class="card card-default">
             <div class="card-body">
                 <h3>Bestellungen</h3>
-                <i>Keine offenen Bestellungen</i>
+                @if (count($bestellungen) == 0)
+                    <i>Keine offenen Bestellungen</i>
+                @else
+                    @foreach($bestellungen as $bestellungId => $bestellungData)
+                        <b>{{\App\Tisch::find($bestellungData['tisch'])->Name}} ({{$bestellungData['zeit']}})</b>
+                        <br>
+                        @foreach($bestellungData['produkte'] as $produkt)
+                            {{$produkt->Produkt_ID}}<br>
+                        @endforeach
+                    @endforeach
+                @endif                
             </div>
         </div>
     </div>

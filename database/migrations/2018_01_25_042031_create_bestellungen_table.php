@@ -17,12 +17,14 @@ class CreateBestellungenTable extends Migration
         // Abläufe s. https://github.com/CloudMaker97/Bestellsystem-Gastro/wiki/Bestellabl%C3%A4ufe
         
         Schema::create('Kunden', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('Tisch_ID');
             $table->boolean('Abgerechnet')->default(false);
             $table->timestamps();
         });
 
         Schema::create('Kunden_Bestellungen', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('Kunden_ID');
             $table->integer('Bestellung_ID');
         });

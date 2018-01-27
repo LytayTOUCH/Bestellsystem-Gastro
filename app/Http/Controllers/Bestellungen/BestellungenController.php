@@ -4,15 +4,29 @@ namespace App\Http\Controllers\Bestellungen;
 
 use \App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
+use \App\KundeBestellung;
+use \App\BestellungProdukt;
+use \App\Produkt;
 use \App\Bestellung;
 use \App\Kategorie;
 use \App\Tisch;
-use \App\Produkt;
+use \App\Kunde;
+
 
 class BestellungenController extends AuthController
 {
     public function index() {
-    	return view("bestellungen.index");
+        $bestellungen = Bestellung::where('Erledigt', false)->get();
+        $allBestellungen = [];
+
+        foreach ($bestellungen as $bestellung) {
+            $produkte = BestellungProdukt::where('Bestellung_ID', $bestellung->id)->get();
+            $kundenBestellung = KundeBestellung::where('Bestellung_ID', $bestellung->id)->get()->first();
+            $kunde = Kunde::find($kundenBestellung->Kunden_ID);
+            $allBestellungen[$bestellung->id] = ['tisch' => $kunde->Tisch_ID, 'kunde' => $kunde->id, 'zeit' => $bestellung->created_at, 'produkte'=>$produkte];
+        }
+
+    	return view("bestellungen.index", ['bestellungen' => $allBestellungen]);
     }
 
     public function NeueBestellung() {
@@ -31,9 +45,61 @@ class BestellungenController extends AuthController
     }
 
     public function NeueBestellungSpeichern(Request $request) {
-/*        echo $request->input('customerTable');
-        echo "<br>";
-        print_r($request->input('anzahl'));*/
+        // Prüfe ob Tisch existiert
+        $tisch = Tisch::find($request->input('customerTable'));
+        if($tisch->count() !== null) {
+            // Prüfe ob Tisch bereits besetzt ist
+            if(Tisch::IsTableBlocked($tisch->id)) {
+                $kundeId = Tisch::GetKundeFromTable($tisch->id);
+                if($kundeId !== 0) {
+                    $kunde = Kunde::find($kundeId);
+                } else {
+                    throw new Exception("Error Processing Request", 1);
+                }
+            } else {
+                $kunde = new Kunde;
+                $kunde->Tisch_ID = $request->input('customerTable');
+                $kunde->Abgerechnet = false;
+                $kunde->save();
+            }
+
+            // Prüfe ob Produkte enthalten sind
+            $produkteAnzahl = 0;
+            foreach($request->input('anzahl') as $produkt => $anzahl) {
+                if(!$anzahl <= 0) {
+                    $produkteAnzahl += $anzahl;
+                }
+            }
+
+            // Erstelle eine neue Bestellung
+            if($produkteAnzahl > 0) {
+                $bestellung = new Bestellung;
+                $bestellung->Erledigt = false;
+                $bestellung->save();
+
+                foreach($request->input('anzahl') as $produkt => $anzahl) {
+                    for ($i=0; $i < $anzahl; $i++) { 
+                        $bestellungProdukte = new BestellungProdukt;
+                        $bestellungProdukte->Bestellung_ID = $bestellung->id;
+                        $bestellungProdukte->Produkt_ID = $produkt;
+                        // Hole den Preis zur Kaufzeit
+                        $produktPreis = Produkt::find($produkt); 
+                        $bestellungProdukte->Preis = $produktPreis->price;
+                        $bestellungProdukte->save();
+                    }   
+                }
+
+                $kundeBestellung = new KundeBestellung;
+                $kundeBestellung->Kunden_ID = $kunde->id;
+                $kundeBestellung->Bestellung_ID = $bestellung->id;
+                $kundeBestellung->save();
+            }
+
+            // Setze Tisch als besetzt
+            $tisch->Besetzt = true;
+        } else {
+            throw new BadMethodCallException("Nicht implementierte Funktion");
+        }
         return redirect(route('Bestellungen'));
     }
 
