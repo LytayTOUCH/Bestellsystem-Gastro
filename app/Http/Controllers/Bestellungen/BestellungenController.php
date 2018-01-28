@@ -44,6 +44,46 @@ class BestellungenController extends AuthController
     	# print_r($selectedAuswahl);
     }
 
+    public function BestellungStornieren($id) { 
+        $bestellung = Bestellung::find($id);
+        if($bestellung != null) {
+            BestellungProdukt::where('Bestellung_ID', $id)->delete();
+            KundeBestellung::where('Bestellung_ID', $id)->delete();
+            $bestellung->delete();
+        }
+        return redirect(route('Bestellungen'));
+    }
+
+    public function BestellungErledigen($id) {
+        $bestellung = Bestellung::find($id);
+        if($bestellung != null) {
+            $bestellung->Erledigt = true;
+            $bestellung->save();
+        }
+        return redirect(route('Bestellungen'));
+    }
+
+    public function BestellungProduktEntfernen($id) {
+        $produkt = BestellungProdukt::find($id);
+        if($produkt != null) {
+            if(Bestellung::find($produkt->Bestellung_ID)->Erledigt != true) {
+                $produkt->delete();
+            }
+        }
+        return redirect(route('Bestellungen'));
+    }
+
+    public function BestellungProduktKostenlos($id) {
+        $produkt = BestellungProdukt::find($id);
+        if($produkt != null) {
+            if(Bestellung::find($produkt->Bestellung_ID)->Erledigt != true) {
+                $produkt->Preis = 0;
+                $produkt->save();
+            }
+        }
+        return redirect(route('Bestellungen'));
+    }
+
     public function NeueBestellungSpeichern(Request $request) {
         // Prüfe ob Tisch existiert
         $tisch = Tisch::find($request->input('customerTable'));
@@ -97,24 +137,25 @@ class BestellungenController extends AuthController
 
             // Setze Tisch als besetzt
             $tisch->Besetzt = true;
+            $tisch->save();
         } else {
             throw new BadMethodCallException("Nicht implementierte Funktion");
         }
         return redirect(route('Bestellungen'));
     }
 
-    public function BestellungStornieren() {
+    public function Abrechnung() {
+        // Hole Kunden
+        $temp_prod = [];
+        $kunden = Kunde::where('Abgerechnet', false)->get();
+        foreach($kunden as $kunde) {
+            // Hole Bestellungen zum Kunden
+            $kunden_bestellungen = KundeBestellung::where('Kunden_ID', $kunde->id)->get(); 
+            foreach($kunden_bestellungen as $kunden_bestellung) {
+                // Hole Summe für den Kunden
+            }
+        }
 
-    }
-
-    public function BestellungErledigen($id)
-    {
-    	$selectedOrder = Bestellung::where('id', $id)->first();
-    	if($selectedOrder->count() == 1) {
-    		$selectedOrder->Erledigt = true;
-    		$selectedOrder->save();
-    	}
-
-    	return redirect(route('Bestellungen'));
+        return view("bestellungen.abrechnung", ["tisch_bestellungen"=>$temp_prod]);
     }
 }
