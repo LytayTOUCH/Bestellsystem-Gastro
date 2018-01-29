@@ -38,6 +38,7 @@ Route::prefix('bestellungen')->group(function() {
 Route::prefix('verwaltung')->group(function() {
 	Route::get('/', 'Verwaltung\VerwaltungController@index')->name('Verwaltung');
 	Route::get('/entwickler', 'Verwaltung\EntwicklerController@index')->name('Verwaltung.Entwickler');
+	Route::get('/entwickler/update', 'Verwaltung\EntwicklerController@update')->name('Verwaltung.Entwickler.Update');
 	Route::post('/entwickler-issue', 'Verwaltung\EntwicklerController@CreateIssue')->name('Verwaltung.Entwickler.CreateIssue');
 
 	Route::prefix('tische')->group(function() {

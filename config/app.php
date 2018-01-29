@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'version' => env('APP_VERSION', '0.0'),
 
     /*
     |--------------------------------------------------------------------------
@@ -230,7 +231,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
-
     ],
 
 ];
