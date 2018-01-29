@@ -13,3 +13,4 @@ Eingesetzt:
 Wichtige Informationen für den produktiven Einsatz
 - .env Anpassen für Einstellungen
 - In der .env die Sentry-DSN setzen / APP_ENV auf "productive" setzen
+- Composer für den Updater global installieren
