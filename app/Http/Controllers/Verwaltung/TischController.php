@@ -36,7 +36,7 @@ class TischController extends AuthController
     		$tisch->save();
     	}
 
-    	return redirect(route('Verwaltung.Tische'));
+    	return redirect(route('Verwaltung.Tische'))->with('message', "Der Tisch wurde zurückgesetzt");
     }
 
     public function reset_all() {
@@ -44,7 +44,7 @@ class TischController extends AuthController
     		'Besetzt' => false,
     	]);
 
-    	return redirect(route('Verwaltung.Tische'));
+    	return redirect(route('Verwaltung.Tische'))->with('message', "Alle Tische wurden zurückgesetzt");
     }
 
     public function entfernen($id) {

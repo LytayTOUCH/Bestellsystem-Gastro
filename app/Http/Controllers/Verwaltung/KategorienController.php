@@ -23,7 +23,7 @@ class KategorienController extends AuthController
     	$category->name = $request->input('categoryName');
     	$category->description = $request->input('categoryDescription');
     	$category->save();
-    	return redirect(route("Verwaltung.Kategorien"));
+    	return redirect(route("Verwaltung.Kategorien"))->with('message', 'Die Kategorie wurde gespeichert');
     }
 
     public function bearbeiten($id) {
@@ -41,7 +41,7 @@ class KategorienController extends AuthController
     	$category->name = $request->input('categoryName');
     	$category->description = $request->input('categoryDescription');
     	$category->save();
-    	return redirect(route("Verwaltung.Kategorien"));
+    	return redirect(route("Verwaltung.Kategorien"))->with('message', 'Die Kategorie wurde gespeichert');
     }
 
     public function entfernen($id) {
@@ -60,6 +60,6 @@ class KategorienController extends AuthController
         	}
         }
 
-    	return redirect(route("Verwaltung.Kategorien"));
+    	return redirect(route("Verwaltung.Kategorien"))->with('message', 'Die Kategorie wurde entfernt');;
     }
 }

@@ -31,7 +31,7 @@ class ProduktController extends AuthController
     	$produkt->category = $request->input('productCategory');
     	$produkt->save();
 
-    	return redirect(route('Verwaltung.Produkte'));
+    	return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde gespeichert');
     }
 
     public function bearbeiten($id) {
@@ -55,13 +55,14 @@ class ProduktController extends AuthController
 	    	$produkt->save();
     	}
     	
-    	return redirect(route('Verwaltung.Produkte'));
+    	return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde gespeichert');
     }
 
     public function entfernen($id) {
     	$produkt = Produkt::where('id', $id)->first();
     	if($produkt->count() >= 1) {
 	    	$produkt->delete();
+            return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde entfernt');
     	}
 
     	return redirect(route('Verwaltung.Produkte'));

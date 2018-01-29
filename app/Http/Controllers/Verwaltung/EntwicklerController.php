@@ -35,7 +35,7 @@ class EntwicklerController extends AuthController
     		"body" => $request->input('issueDescription')
     	]);
 
-    	return redirect(route('Verwaltung.Entwickler'));
+    	return redirect(route('Verwaltung.Entwickler'))->with('message', 'Die Aufgabe wurde an das Entwicklungssystem weitergegeben');;
     }
 
     public function changelog() {
@@ -45,6 +45,6 @@ class EntwicklerController extends AuthController
     public function update()
     {
         Artisan::call('update:start');
-        return redirect(route('Verwaltung.Entwickler.Changelog'));
+        return redirect(route('Verwaltung.Entwickler.Changelog'))->with('message', 'Das System wurde aktualisiert');
     }
 }

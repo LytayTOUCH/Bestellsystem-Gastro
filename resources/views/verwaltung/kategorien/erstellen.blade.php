@@ -5,7 +5,7 @@
 	<div class="col-md-3">
 		@include("verwaltung.shared.navigation")
 	</div>
-	<div class="col-md-8">
+	<div class="col-md-9">
 		<div class="card">
 			<div class="card-body">
 				<h1>Kategorien bearbeiten</h1>

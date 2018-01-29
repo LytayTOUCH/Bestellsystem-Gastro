@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Bestellsystem') }}</title>
 
     <link href="{{ asset('favicon.ico') }}" rel="icon" type="image/x-icon" />
 
@@ -58,7 +58,7 @@
         </nav>
 
         @if(env('APP_ENV') == "development")
-            <div class="alert alert-info" role="alert">
+            <div class="alert alert-warning" role="alert">
               Du befindest dich auf einem Entwicklungssystem
             </div>
         @endif
@@ -66,6 +66,12 @@
         <br>
 
         <div class="container">
+            @if(session()->has('message'))
+                <div class="alert alert-success" role="alert">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+            
             @yield('content')
         </div>
     </div>

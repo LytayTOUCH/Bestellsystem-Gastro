@@ -37,10 +37,18 @@ Route::prefix('bestellungen')->group(function() {
 // Verwaltung
 Route::prefix('verwaltung')->group(function() {
 	Route::get('/', 'Verwaltung\VerwaltungController@index')->name('Verwaltung');
-	Route::get('/entwickler', 'Verwaltung\EntwicklerController@index')->name('Verwaltung.Entwickler');
-	Route::get('/entwickler/update', 'Verwaltung\EntwicklerController@update')->name('Verwaltung.Entwickler.Update');
-	Route::get('/entwickler/changelog', 'Verwaltung\EntwicklerController@changelog')->name('Verwaltung.Entwickler.Changelog');
-	Route::post('/entwickler-issue', 'Verwaltung\EntwicklerController@CreateIssue')->name('Verwaltung.Entwickler.CreateIssue');
+
+	Route::prefix('entwickler')->group(function () {
+		Route::get('/', 'Verwaltung\EntwicklerController@index')->name('Verwaltung.Entwickler');
+		Route::get('/update', 'Verwaltung\EntwicklerController@update')->name('Verwaltung.Entwickler.Update');
+		Route::get('/changelog', 'Verwaltung\EntwicklerController@changelog')->name('Verwaltung.Entwickler.Changelog');
+		Route::post('/issue', 'Verwaltung\EntwicklerController@CreateIssue')->name('Verwaltung.Entwickler.CreateIssue');
+	});
+
+	Route::prefix('daten')->group(function () {
+		Route::get('/', 'Verwaltung\DatenController@index')->name('Verwaltung.Daten');
+		Route::get('/bereinigen', 'Verwaltung\DatenController@bereinigen')->name('Verwaltung.Daten.Bereinigen');
+	});
 
 	Route::prefix('tische')->group(function() {
 		Route::get('/', 'Verwaltung\TischController@index')->name('Verwaltung.Tische');

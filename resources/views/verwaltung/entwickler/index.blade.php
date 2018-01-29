@@ -5,7 +5,7 @@
 	<div class="col-md-3">
 		@include("verwaltung.shared.navigation")
 	</div>
-	<div class="col-md-8">
+	<div class="col-md-9">
 		<div class="card">
 			<div class="card-body">
 				<h1>Entwickler <i class="em em-desktop_computer" style="font-size: 20px"></i></h1>
