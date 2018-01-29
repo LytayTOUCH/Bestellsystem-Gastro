@@ -23,7 +23,7 @@
 								<table class="table">
 									<tr>
 										<th>Software-Version (Rev.)</th>
-										<td>0000</td>
+										<td>{{ config('app.version', 0) }}</td>
 									</tr>
 									<tr>
 										<th>Webseiten-Cache aktualisiert</th>

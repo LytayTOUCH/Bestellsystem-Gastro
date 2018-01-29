@@ -9,9 +9,12 @@
 		<div class="card">
 			<div class="card-body">
 				<h1>Änderungen des Updates</h1>
+				<p>Neue Versionsnummer: {{ config('app.version', 0) }}</p>
 				<p>
 					<ul>
 						<li>Änderungen am Update-System</li>
+						<li>Benutzerfeedback in der Verwaltung nach Aktionen</li>
+						<li>Löschen von Systemdaten (inkl. Artisan Command)</li>
 					</ul>
 				</p>
 			</div>
