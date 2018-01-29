@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Verwaltung;
 use App\Http\Controllers\AuthController;
 use Github\Client;
-use Illuminate\Support\Facades\Hash;
+use Artisan;
 use Illuminate\Http\Request;
 
 class EntwicklerController extends AuthController
@@ -25,9 +25,6 @@ class EntwicklerController extends AuthController
 	}
 
     public function index() {
-
-        echo Hash::make("shishalounge");
-        return;
     	$issues = $this->githubClient->api('issue')->all($this->splitRepoEnv[0], $this->splitRepoEnv[1], array('state' => 'open'));
     	return view("verwaltung.entwickler.index", ['issues' => $issues, 'isDevEnv' => $this->isDevEnv]);
     }
@@ -41,9 +38,13 @@ class EntwicklerController extends AuthController
     	return redirect(route('Verwaltung.Entwickler'));
     }
 
+    public function changelog() {
+        return view('verwaltung.entwickler.changelog');
+    }
+
     public function update()
     {
-        $updater = \Updater::update();
-        print_r($updater);
+        Artisan::call('update:start');
+        return redirect(route('Verwaltung.Entwickler.Changelog'));
     }
 }

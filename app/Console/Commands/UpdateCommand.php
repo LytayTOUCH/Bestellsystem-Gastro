@@ -37,10 +37,7 @@ class UpdateCommand extends Command
      */
     public function handle()
     {
-        echo "Update Prozess wird durchgeführt...\n";
-
+        ini_set('max_execution_time', 300);
         shell_exec('(cd '. base_path() .' && git pull -f -q && composer update && php artisan migrate)');
-
-        echo "Der Update Prozess wurde abgeschlossen!";
     }
 }
