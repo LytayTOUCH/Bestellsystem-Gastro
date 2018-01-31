@@ -60,11 +60,6 @@
                     <p>
                         Da du bestimmt direkt mit der Benutzung loslegen möchtest, kannst du mittels der Navigation zwischen verschiedenen Funktionen umschalten. Und noch viel besser: Diese Webseite ist für Mobile Endgeräte optimiert - das heißt, dass du die Software auch auf deinem Tablet, einem Smartphone oder normal über einen PC benutzen kannst. <i class="em-svg em-iphone"></i>
                     </p>
-                    <hr>
-                    <h2>Statistiken</h2>
-                    <p>
-                        Coming soon.
-                    </p>
                 @endguest
             </div>
         </div>
