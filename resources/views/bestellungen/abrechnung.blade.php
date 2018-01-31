@@ -11,11 +11,16 @@
                 <h3>Abrechnung</h3>
                 @foreach($tisch_bestellungen as $kunde)
                     <b>{{$kunde->tisch->Name}}</b><br>
-                    @foreach($kunde->bestelltes as $bestellung)
-                    <?php
-                        $summe = 0;           
-                    ?>
                     <table class="table">
+                        <tr>
+                            <th>Produktname</th>
+                            <th>Preis</th>
+                            <th>Aktionen</th>
+                        </tr>
+                        <?php
+                            $summe = 0;           
+                        ?>
+                    @foreach($kunde->bestelltes as $bestellung)
                         @foreach($bestellung->produkte as $produkt)
                             <?php 
                                 $summe += $produkt->Preis;
@@ -28,7 +33,8 @@
                                     {{number_format($produkt->Preis, 2, ",", ".")}} €
                                 </td>
                             </tr>
-                            @if ($loop->last)
+                        @endforeach
+                    @if ($loop->last)
                             <tr>
                                 <td></td>
                                 <td>
@@ -38,7 +44,6 @@
                             @endif
                         @endforeach
                     </table>
-                    @endforeach
                 @endforeach  
             </div>
         </div>
