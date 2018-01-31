@@ -20,12 +20,11 @@
 				</p>
 
 				<b>Umzusetzendes <small>(Aktualisiert: {{date("d.m.y - H:i:s")}})</small></b>
-				<ul>
+
+				
 					@foreach($issues as $issue)
-						<li>{{$issue['title']}}</li>
+						<li title="{{$issue['body']}}">#{{$issue['number']}} {{$issue['title']}}</li>
 					@endforeach
-					
-				</ul>
 
 				@if($isDevEnv == true)
 				<hr>

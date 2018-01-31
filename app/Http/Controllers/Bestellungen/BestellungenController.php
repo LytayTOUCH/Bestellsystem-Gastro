@@ -146,10 +146,8 @@ class BestellungenController extends AuthController
     }
 
     public function Abrechnung() {
-        $bestellungen = Kunde::with('bestelltes')->where('Abgerechnet', false)->get();
-        print_r($bestellungen);
-        return;
+        $bestellungen = Kunde::with(['bestelltes', 'bestelltes.produkte', 'tisch'])->where('Abgerechnet', false)->get();
 
-        return view("bestellungen.abrechnung", ["tisch_bestellungen"=>null]);
+        return view("bestellungen.abrechnung", ["tisch_bestellungen"=>$bestellungen]);
     }
 }
