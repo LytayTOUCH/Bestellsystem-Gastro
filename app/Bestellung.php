@@ -8,7 +8,7 @@ class Bestellung extends Model
 {
 	protected $table = "Bestellungen";
 
-	public function BestellungProdukte() {
+	public function produkte() {
 		return $this->hasMany('App\BestellungProdukt');
 	}
 }

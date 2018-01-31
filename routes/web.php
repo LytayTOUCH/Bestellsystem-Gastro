@@ -1,5 +1,7 @@
 <?php
 
+use App\Kunde;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +14,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    print_r(Kunde::find(1)->bestelltes);
 });
 
 Route::get('/home', function () {

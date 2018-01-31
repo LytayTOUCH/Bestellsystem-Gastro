@@ -9,6 +9,10 @@ class Tisch extends Model
 {
     protected $table = "Tische";
 
+    public function kunden() {
+        return $this->hasMany('App\Kunde', 'Tisch_ID', 'id');
+    }
+
     /* 
     Check if a table is already reserved or blocked by another customer
     */
