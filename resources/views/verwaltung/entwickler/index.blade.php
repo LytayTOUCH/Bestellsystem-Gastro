@@ -26,8 +26,9 @@
 						<li title="{{$issue['body']}}">#{{$issue['number']}} {{$issue['title']}}</li>
 					@endforeach
 
-				@if($isDevEnv == true)
 				<hr>
+				@if($isDevEnv == true)
+				
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#developerCreateIssueModal">
 					Neuen Issue erstellen
