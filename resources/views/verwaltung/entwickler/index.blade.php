@@ -32,12 +32,6 @@
 				<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#developerCreateIssueModal">
 					Neuen Issue erstellen
 				</button>
-				<a href="{{route('Verwaltung.Entwickler.Update')}}" class="btn btn-primary">
-					System aktualisieren
-				</a>
-				<a href="{{route('Verwaltung.Entwickler.Changelog')}}" class="btn btn-info">
-					Changelog
-				</a>
 
 				<!-- Modal -->
 				<form method="post" action="{{ route('Verwaltung.Entwickler.CreateIssue') }}">
@@ -74,6 +68,12 @@
 					</div>
 				</form>
 				@endif
+				<a href="{{route('Verwaltung.Entwickler.Update')}}" class="btn btn-primary">
+					System aktualisieren
+				</a>
+				<a href="{{route('Verwaltung.Entwickler.Changelog')}}" class="btn btn-info">
+					Changelog
+				</a>
 			</div>
 		</div>
 	</div>
