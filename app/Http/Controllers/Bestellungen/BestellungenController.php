@@ -99,9 +99,10 @@ class BestellungenController extends AuthController
             } else {
                 $kunde = new Kunde;
                 $kunde->Tisch_ID = $request->input('customerTable');
-                $kunde->Abgerechnet = false;
-                $kunde->save();
             }
+
+            $kunde->Abgerechnet = false;
+            $kunde->save();
 
             // Prüfe ob Produkte enthalten sind
             $produkteAnzahl = 0;
@@ -145,17 +146,10 @@ class BestellungenController extends AuthController
     }
 
     public function Abrechnung() {
-        // Hole Kunden
-        $temp_prod = [];
-        $kunden = Kunde::where('Abgerechnet', false)->get();
-        foreach($kunden as $kunde) {
-            // Hole Bestellungen zum Kunden
-            $kunden_bestellungen = KundeBestellung::where('Kunden_ID', $kunde->id)->get(); 
-            foreach($kunden_bestellungen as $kunden_bestellung) {
-                // Hole Summe für den Kunden
-            }
-        }
+        $bestellungen = Kunde::with('bestelltes')->where('Abgerechnet', false)->get();
+        print_r($bestellungen);
+        return;
 
-        return view("bestellungen.abrechnung", ["tisch_bestellungen"=>$temp_prod]);
+        return view("bestellungen.abrechnung", ["tisch_bestellungen"=>null]);
     }
 }
