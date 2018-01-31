@@ -38,6 +38,6 @@ class UpdateCommand extends Command
     public function handle()
     {
         ini_set('max_execution_time', 300);
-        shell_exec('(cd '. base_path() .' && git pull -f -q && composer update && php artisan migrate)');
+        shell_exec('(cd '. base_path() .' && git reset --hard && git pull -f -q && composer update && php artisan migrate)');
     }
 }
