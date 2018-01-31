@@ -12,9 +12,9 @@
 				<p>Neue Versionsnummer: {{ config('app.version', 0) }}</p>
 				<p>
 					<ul>
-						<li>Änderungen am Update-System</li>
-						<li>Benutzerfeedback in der Verwaltung nach Aktionen</li>
-						<li>Löschen von Systemdaten (inkl. Artisan Command)</li>
+						<li>Änderungen am Update-System (Verbesserungen nach Fehlern)</li>
+						<li>Dunkles Design für bessere Ansicht im Dunklen</li>
+						<li>Beginn des Abrechnung-Moduls</li>
 					</ul>
 				</p>
 			</div>
