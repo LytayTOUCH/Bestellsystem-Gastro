@@ -14,7 +14,7 @@ use App\Kunde;
 */
 
 Route::get('/', function () {
-    print_r(Kunde::find(1)->bestelltes);
+    return view('welcome');
 });
 
 Route::get('/home', function () {
