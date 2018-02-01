@@ -44,7 +44,8 @@ class EntwicklerController extends AuthController
 
     public function update()
     {
-        Artisan::call('update:start');
+        ini_set('max_execution_time', 300);
+        shell_exec('(cd '. base_path() .' && git reset --hard && git pull -f -q && composer update && php artisan migrate)');
         return redirect(route('Verwaltung.Entwickler.Changelog'))->with('message', 'Das System wurde aktualisiert');
     }
 }

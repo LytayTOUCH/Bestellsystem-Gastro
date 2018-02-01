@@ -14,6 +14,7 @@
 					<ul>
 						<li>Hinweise auf offene Bestellungen bei der Abrechnung</li>
 						<li>Dunkles Design angepasst</li>
+						<li>Verlagerung des Updaters</li>
 					</ul>
 				</p>
 			</div>
