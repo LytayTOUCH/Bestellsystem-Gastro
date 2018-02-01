@@ -12,6 +12,17 @@ class Kunde extends Model
     	return $this->hasOne('App\Tisch', 'id', 'Tisch_ID');
     }
 
+    public static function offeneBestellungenCount($kundenId) {
+        $kunde = Kunde::find($kundenId);
+        $count = 0;
+        foreach($kunde->bestelltes as $bestellung) {
+            if($bestellung->Erledigt == false) {
+                $count++;
+            }
+        }
+        return $count;
+    }
+
     public function bestelltes() {
     	return $this->hasManyThrough(
     		'App\Bestellung', 
@@ -20,4 +31,6 @@ class Kunde extends Model
             'id'
     	);
     }
+
+
 }

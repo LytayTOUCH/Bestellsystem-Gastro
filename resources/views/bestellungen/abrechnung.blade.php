@@ -10,7 +10,12 @@
             <div class="card-body">
                 <h3>Abrechnung</h3>
                 @foreach($tisch_bestellungen as $kunde)
-                    <b>{{$kunde->tisch->Name}}</b><br>
+                    <p>
+                        <b>{{$kunde->tisch->Name}}</b> 
+                        @if(\App\Kunde::offeneBestellungenCount($kunde->id) > 0)
+                            <span class="badge badge-danger">Hat offene Bestellung</span>
+                        @endif
+                    </p>
                     <table class="table">
                         <tr>
                             <th>Produktname</th>
