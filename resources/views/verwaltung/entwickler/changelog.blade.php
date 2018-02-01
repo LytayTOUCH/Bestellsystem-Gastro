@@ -12,9 +12,8 @@
 				<p>Neue Versionsnummer: {{ config('app.version', 0) }}</p>
 				<p>
 					<ul>
-						<li>Änderungen am Update-System (Verbesserungen nach Fehlern)</li>
-						<li>Dunkles Design für bessere Ansicht im Dunklen</li>
-						<li>Beginn des Abrechnung-Moduls</li>
+						<li>Hinweise auf offene Bestellungen bei der Abrechnung</li>
+						<li>Dunkles Design angepasst</li>
 					</ul>
 				</p>
 			</div>
