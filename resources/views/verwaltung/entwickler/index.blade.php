@@ -68,6 +68,7 @@
 					  </div>
 					</div>
 				</form>
+				<br>
 				@endif
 				<a href="{{route('Verwaltung.Entwickler.Update')}}" class="btn btn-primary">
 					System aktualisieren

@@ -22,7 +22,7 @@
                         <h4> {{$CatWithProd['name']}} </h4>
                         <table class="table table-condensed table-striped">
                             <tr style="width: 100%;">
-                                <th style="width: 60px;">Anzahl</th>
+                                <th style="width: 90px;">Anzahl</th>
                                 <th>Produktname</th>
                             </tr>
                             @foreach($CatWithProd['produkte'] as $Product)
