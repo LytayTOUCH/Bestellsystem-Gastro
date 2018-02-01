@@ -37,7 +37,9 @@ class UpdateCommand extends Command
      */
     public function handle()
     {
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
         ini_set('max_execution_time', 300);
-        shell_exec('(cd '. base_path() .' && git reset --hard && git pull -f -q && composer update && php artisan migrate)');
+        shell_exec('(cd /var/www/html && git reset --hard && git pull -f -q && composer update && php artisan migrate)');
     }
 }
