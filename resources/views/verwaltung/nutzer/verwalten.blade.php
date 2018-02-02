@@ -12,27 +12,48 @@
 				<h1>Benutzer verwalten</h1>
 				<form class="form" method="POST" action="{{route('Verwaltung.Nutzer.ErstellenSpeichern')}}">
 					{{ csrf_field() }}
-
+					<!--
 					<div class="form-check">
-						<input type="checkbox" name="UserActive" class="form-check-input"> 
-						<label class="form-check-label" for="UserActive">Benutzerkonto freigeschaltet</label>
+						<input type="checkbox" name="active" class="form-check-input"> 
+						<label class="form-check-label" for="active">Benutzerkonto freigeschaltet</label>
 						<small class="form-text text-muted">Du kannst einen Benutzer temporär abschalten</small>
 					</div>
-					<br>
+					<br>-->
 					<div class="form-group">
-						<label for="FullName">Vor und Nachname</label>
-						<input type="text" name="FullName" class="form-control"  autocomplete="new-fullname">
+						<label for="name">Vor und Nachname</label>
+						<input type="text" name="name" class="form-control"  autocomplete="new-fullname" required="true" min="3">
 						<small class="form-text text-muted">Ein Nutzername wird zur Zuordnung von Bestellungen benötigt</small>
+						@if ($errors->has('name'))
+                            <span class="form-text text-danger">
+                                <small>{{ $errors->first('name') }}</small>
+                            </span>
+                        @endif
 					</div>
 					<div class="form-group">
-						<label for="Mail">E-Mail Adresse</label>
-						<input type="text" name="Mail" class="form-control" autocomplete="new-mail">
+						<label for="email">E-Mail Adresse</label>
+						<input type="text" name="email" class="form-control" autocomplete="new-mail" required="true">
 						<small class="form-text text-muted">Mit der E-Mail wird ein Anmelden am System ermöglicht.</small>
+						@if ($errors->has('email'))
+                            <span class="form-text text-danger">
+                                <small>{{ $errors->first('email') }}</small>
+                            </span>
+                        @endif
 					</div>
 					<div class="form-group">
-						<label for="Passwort">Passwort</label>
-						<input type="password" name="Passwort" class="form-control" autocomplete="new-password">
-						<small class="form-text text-muted">Das Passwort kann später wieder geändert werden.</small>
+						<label for="password">Passwort</label>
+						<input type="password" name="password" class="form-control" autocomplete="new-password" required="{{($newDataSet == true ? "true" : "false")}}">
+						<small class="form-text text-muted">
+							@if($newDataSet == true)
+								Das Passwort kann später wieder geändert werden.
+							@else
+								Wenn das Passwort gleich bleiben soll, einfach leer lassen.
+							@endif
+						</small>
+						@if ($errors->has('password'))
+                            <span class="form-text text-danger">
+                                <small>{{ $errors->first('password') }}</small>
+                            </span>
+                        @endif
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-success" value="Benutzer speichern">
