@@ -40,6 +40,17 @@ Route::prefix('bestellungen')->group(function() {
 Route::prefix('verwaltung')->group(function() {
 	Route::get('/', 'Verwaltung\VerwaltungController@index')->name('Verwaltung');
 
+	// Benutzerverwaltung
+	Route::prefix('nutzer')->group(function() {
+		Route::get('/', 'Verwaltung\NutzerController@index')->name('Verwaltung.Nutzer');
+		Route::get('/erstellen', 'Verwaltung\NutzerController@erstellen')->name('Verwaltung.Nutzer.Erstellen');
+		Route::post('/erstellen', 'Verwaltung\NutzerController@erstellenSpeichern')->name('Verwaltung.Nutzer.ErstellenSpeichern');
+		Route::get('/bearbeiten/{id}', 'Verwaltung\NutzerController@bearbeiten')->name('Verwaltung.Nutzer.Bearbeiten');
+		Route::post('/bearbeiten/{id}', 'Verwaltung\NutzerController@bearbeitenSpeichern')->name('Verwaltung.Nutzer.BearbeitenSpeichern');
+		Route::get('/entfernen/{id}', 'Verwaltung\NutzerController@entfernen')->name('Verwaltung.Nutzer.Entfernen');
+	});
+
+	// Entwicklersektion
 	Route::prefix('entwickler')->group(function () {
 		Route::get('/', 'Verwaltung\EntwicklerController@index')->name('Verwaltung.Entwickler');
 		Route::get('/update', 'Verwaltung\EntwicklerController@update')->name('Verwaltung.Entwickler.Update');
@@ -47,11 +58,13 @@ Route::prefix('verwaltung')->group(function() {
 		Route::post('/issue', 'Verwaltung\EntwicklerController@CreateIssue')->name('Verwaltung.Entwickler.CreateIssue');
 	});
 
+	// Systemdaten
 	Route::prefix('daten')->group(function () {
 		Route::get('/', 'Verwaltung\DatenController@index')->name('Verwaltung.Daten');
 		Route::get('/bereinigen', 'Verwaltung\DatenController@bereinigen')->name('Verwaltung.Daten.Bereinigen');
 	});
 
+	// Tischverwaltung
 	Route::prefix('tische')->group(function() {
 		Route::get('/', 'Verwaltung\TischController@index')->name('Verwaltung.Tische');
 		Route::get('/erstellen', 'Verwaltung\TischController@erstellen')->name('Verwaltung.Tische.Erstellen');
@@ -61,6 +74,7 @@ Route::prefix('verwaltung')->group(function() {
 		Route::get('/reset_all', 'Verwaltung\TischController@reset_all')->name('Verwaltung.Tische.ResetAll');
 	});
 
+	// Produktverwaltung
 	Route::prefix('produkte')->group(function() {
 		Route::get('/', 'Verwaltung\ProduktController@index')->name('Verwaltung.Produkte');
 		Route::get('/erstellen', 'Verwaltung\ProduktController@erstellen')->name('Verwaltung.Produkte.Erstellen');

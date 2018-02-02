@@ -25,24 +25,27 @@
                         <?php
                             $summe = 0;           
                         ?>
-                    @foreach($kunde->bestelltes as $bestellung)
-                        @foreach($bestellung->produkte as $produkt)
-                            <?php 
-                                $summe += $produkt->Preis;
-                            ?>
-                            <tr>
-                                <td>
-                                    {{$produkt->produkt->name}}
-                                </td>
-                                <td>
-                                    {{number_format($produkt->Preis, 2, ",", ".")}} €
-                                </td>
-                                <td>
-                                    <a href="{{route('Bestellungen.Produkt.Kostenlos', ['id'=>$produkt->id])}}" class="text-muted">Kostenlos</a> | <a href="{{route('Bestellungen.Produkt.Entfernen', ['id'=>$produkt->id])}}" class="text-danger">Entfernen</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        
+                        @foreach($kunde->bestelltes as $bestellung)
+                            @if(count($bestellung->produkte) == 0)
+                                <tr><td colspan="3">Keine Produkte oder Berechnung gesperrt</td></tr>
+                            @else
+                                @foreach($bestellung->produkte as $produkt)
+                                    <?php 
+                                        $summe += $produkt->Preis;
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            {{$produkt->produkt->name}}
+                                        </td>
+                                        <td>
+                                            {{number_format($produkt->Preis, 2, ",", ".")}} €
+                                        </td>
+                                        <td>
+                                            <a href="{{route('Bestellungen.Produkt.Kostenlos', ['id'=>$produkt->id])}}" class="text-muted">Kostenlos</a> | <a href="{{route('Bestellungen.Produkt.Entfernen', ['id'=>$produkt->id])}}" class="text-danger">Entfernen</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                             <tr>
                                 <td></td>
                                 <td>
