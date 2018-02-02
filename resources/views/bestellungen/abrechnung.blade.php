@@ -37,16 +37,21 @@
                                 <td>
                                     {{number_format($produkt->Preis, 2, ",", ".")}} €
                                 </td>
+                                <td>
+                                    <a href="{{route('Bestellungen.Produkt.Kostenlos', ['id'=>$produkt->id])}}" class="text-muted">Kostenlos</a> | <a href="{{route('Bestellungen.Produkt.Entfernen', ['id'=>$produkt->id])}}" class="text-danger">Entfernen</a>
+                                </td>
                             </tr>
                         @endforeach
-                    @if ($loop->last)
+                        
                             <tr>
                                 <td></td>
                                 <td>
                                     <b>{{number_format($summe, 2, ",", ".")}} €</b>
                                 </td>
+                                <td>
+                                    <a class="btn btn-sm btn-info">Abrechnen</a>
+                                </td>
                             </tr>
-                            @endif
                         @endforeach
                     </table>
                 @endforeach  

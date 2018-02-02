@@ -66,22 +66,20 @@ class BestellungenController extends AuthController
     public function BestellungProduktEntfernen($id) {
         $produkt = BestellungProdukt::find($id);
         if($produkt != null) {
-            if(Bestellung::find($produkt->Bestellung_ID)->Erledigt != true) {
-                $produkt->delete();
-            }
+            $produkt->delete();
         }
-        return redirect(route('Bestellungen'));
+
+        return redirect()->back();
     }
 
     public function BestellungProduktKostenlos($id) {
         $produkt = BestellungProdukt::find($id);
         if($produkt != null) {
-            if(Bestellung::find($produkt->Bestellung_ID)->Erledigt != true) {
-                $produkt->Preis = 0;
-                $produkt->save();
-            }
+            $produkt->Preis = 0;
+            $produkt->save();
         }
-        return redirect(route('Bestellungen'));
+
+        return redirect()->back();
     }
 
     public function NeueBestellungSpeichern(Request $request) {
