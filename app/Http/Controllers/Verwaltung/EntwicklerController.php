@@ -39,7 +39,18 @@ class EntwicklerController extends AuthController
     }
 
     public function changelog() {
-        return view('verwaltung.entwickler.changelog');
+        $changelog = $this->githubClient->api('repo')->commits()->all($this->splitRepoEnv[0], $this->splitRepoEnv[1], array('sha' => 'master'));
+        if(!empty($changelog)) {
+            $commits = [];
+            foreach($changelog as $change) {
+                if(strpos($change['commit']['message'], 'Neue Version erstellt') !== false ) {
+                    break;
+                }
+
+                $commits[] = $change['commit']['message'];
+            }
+        }
+        return view('verwaltung.entwickler.changelog', ['commits' => $commits]);
     }
 
     public function update()

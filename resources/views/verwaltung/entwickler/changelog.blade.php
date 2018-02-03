@@ -8,14 +8,20 @@
 	<div class="col-md-9">
 		<div class="card">
 			<div class="card-body">
-				<h1>Änderungen des Updates</h1>
-				<p>Neue Versionsnummer: {{ config('app.version', 0) }}</p>
+				<h1>Neues in der aktuellesten Version</h1>
 				<p>
+					Diese Neuerungen schließen den neusten Stand ein und repräsentieren nicht die Updates für alleinig dieses System.
+				</p>
+				<p>
+					@if(count($commits) == 0)
+					In der aktuellen Version sind noch keine Versionshinweise vorhanden.
+					@else
 					<ul>
-						<li>Hinweise auf offene Bestellungen bei der Abrechnung</li>
-						<li>Dunkles Design angepasst</li>
-						<li>Verlagerung des Updaters</li>
+						@foreach($commits as $commit)
+							<li>{{$commit}}</li>
+						@endforeach
 					</ul>
+					@endif
 				</p>
 			</div>
 		</div>
