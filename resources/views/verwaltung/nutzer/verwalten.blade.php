@@ -9,8 +9,13 @@
 	<div class="col-md-9">
 		<div class="card">
 			<div class="card-body">
-				<h1>Benutzer verwalten</h1>
+				<h1>Benutzer {{($newDataSet == true) ? "verwalten" : "bearbeiten" }}</h1>
+				@if($newDataSet == true)
 				<form class="form" method="POST" action="{{route('Verwaltung.Nutzer.ErstellenSpeichern')}}">
+				@else
+				<form class="form" method="POST" action="{{route('Verwaltung.Nutzer.BearbeitenSpeichern', ['id'=>$user->id])}}">
+				@endif
+
 					{{ csrf_field() }}
 					<!--
 					<div class="form-check">
@@ -21,7 +26,7 @@
 					<br>-->
 					<div class="form-group">
 						<label for="name">Vor und Nachname</label>
-						<input type="text" name="name" class="form-control"  autocomplete="new-fullname" required="true" min="3">
+						<input type="text" name="name" class="form-control"  autocomplete="new-fullname" required="true" min="3" value="{{ ($newDataSet == false) ? $user->name : old('name') }}">
 						<small class="form-text text-muted">Ein Nutzername wird zur Zuordnung von Bestellungen benötigt</small>
 						@if ($errors->has('name'))
                             <span class="form-text text-danger">
@@ -31,7 +36,7 @@
 					</div>
 					<div class="form-group">
 						<label for="email">E-Mail Adresse</label>
-						<input type="text" name="email" class="form-control" autocomplete="new-mail" required="true">
+						<input type="text" name="email" class="form-control" autocomplete="new-mail" required="true" value="{{ ($newDataSet == false) ? $user->email : old('email') }}">
 						<small class="form-text text-muted">Mit der E-Mail wird ein Anmelden am System ermöglicht.</small>
 						@if ($errors->has('email'))
                             <span class="form-text text-danger">
@@ -41,7 +46,8 @@
 					</div>
 					<div class="form-group">
 						<label for="password">Passwort</label>
-						<input type="password" name="password" class="form-control" autocomplete="new-password" required="{{($newDataSet == true ? "true" : "false")}}">
+						<input type="password" name="password" class="form-control" autocomplete="new-password" 
+						value="{{ ($newDataSet == false) ? '' : old('password') }}" {{($newDataSet == true ? "required" : "")}}>
 						<small class="form-text text-muted">
 							@if($newDataSet == true)
 								Das Passwort kann später wieder geändert werden.

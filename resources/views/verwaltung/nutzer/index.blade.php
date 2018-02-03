@@ -26,6 +26,7 @@
 								<td>{{$user->name}}</td>
 								<td>{{$user->email}}</td>
 								<td>
+									<a href="{{ route('Verwaltung.Nutzer.Bearbeiten', ['id'=>$user->id]) }}">Bearbeiten</a> | 
 									<a href="{{ route('Verwaltung.Nutzer.Entfernen', ['id'=>$user->id]) }}" class="text-danger">Löschen</a>
 								</td>
 							</tr>

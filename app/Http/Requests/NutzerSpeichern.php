@@ -25,7 +25,7 @@ class NutzerSpeichern extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'email|unique:users',
+            'email' => 'email',
             'password' => 'nullable|string'
         ];
     }
