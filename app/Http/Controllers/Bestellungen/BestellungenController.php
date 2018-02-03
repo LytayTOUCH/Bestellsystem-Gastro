@@ -152,4 +152,19 @@ class BestellungenController extends AuthController
 
         return view("bestellungen.abrechnung", ["tisch_bestellungen"=>$bestellungen]);
     }
+
+    public function AbrechnungOpen($id) {
+        // Tisch
+        // Kunden
+        // Produkte
+
+        $tisch = Tisch::find($id);
+        if($tisch !== null) {
+            $kunden = Kunde::where("Tisch_ID", "=", $tisch->id)->with(['bestelltes', 'bestelltes.produkte', 'tisch'])->get();
+            return view('bestellungen.bezahlen', ['kunden'=>$kunden]);
+        } else {
+            throw new Exception("Error Processing Request", 1);
+            
+        }
+    }
 }

@@ -28,6 +28,7 @@ Route::prefix('bestellungen')->group(function() {
 
 	Route::prefix('abrechnung')->group(function() {
 		Route::get('/', 'Bestellungen\BestellungenController@Abrechnung')->name('Bestellungen.Abrechnung');
+		Route::get('/tisch/{id}', 'Bestellungen\BestellungenController@AbrechnungOpen')->name('Bestellungen.Abrechnung.Bearbeiten');
 	});
 
 	Route::get('/abschliessen/{id}', 'Bestellungen\BestellungenController@BestellungErledigen')->name('Bestellungen.Abschliessen');

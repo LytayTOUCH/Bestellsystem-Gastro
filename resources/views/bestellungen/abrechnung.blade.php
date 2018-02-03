@@ -52,7 +52,7 @@
                                     <b>{{number_format($summe, 2, ",", ".")}} €</b>
                                 </td>
                                 <td>
-                                    <a class="btn btn-sm btn-info">Abrechnen</a>
+                                    <a class="btn btn-sm btn-info" href="{{route('Bestellungen.Abrechnung.Bearbeiten', ['id'=>$kunde->tisch->id])}}">Abrechnen</a>
                                 </td>
                             </tr>
                         @endforeach
