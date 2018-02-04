@@ -12,9 +12,15 @@ use \App\Models\Produkte\Produkt;
 use \App\Models\Produkte\Kategorie;
 use \App\Models\Tisch;
 
-
+/**
+ * @category  Bestellungen
+ * @author  Dennis Heinrich
+ */
 class BestellungenController extends AuthController
 {
+    /**
+     * Übersicht der offenen Bestellungen
+     */
     public function index() {
         $bestellungen = Bestellung::where('Erledigt', false)->get();
         $allBestellungen = [];
@@ -29,6 +35,9 @@ class BestellungenController extends AuthController
     	return view("bestellungen.index", ['bestellungen' => $allBestellungen]);
     }
 
+    /**
+     * Anzeigen des Formulars für eine neue Bestellung 
+     */
     public function NeueBestellung() {
     	$kategorien = Kategorie::all();
         $tische = Tisch::all();
@@ -40,10 +49,12 @@ class BestellungenController extends AuthController
     	}
 
     	return view('bestellungen.bestellung', ['selectedCatsAndProds' => $selectedAuswahl, 'tische' => $tische]);
-    	// Test zur korrekten Zuordnung des Arrays
-    	# print_r($selectedAuswahl);
     }
 
+    /**
+     * Bestellung mit spezieller ID stornieren
+     * @param integer $id ID der Bestellung zum stornieren
+     */
     public function BestellungStornieren($id) { 
         $bestellung = Bestellung::find($id);
         if($bestellung != null) {
@@ -54,6 +65,10 @@ class BestellungenController extends AuthController
         return redirect(route('Bestellungen'));
     }
 
+    /**
+     * Bestellung mit spezieller ID als erledigt markieren
+     * @param integer $id ID der zu erledigenden Bestellung
+     */
     public function BestellungErledigen($id) {
         $bestellung = Bestellung::find($id);
         if($bestellung != null) {
@@ -63,6 +78,10 @@ class BestellungenController extends AuthController
         return redirect(route('Bestellungen'));
     }
 
+    /**
+     * Produkt aus einer Bestellung entfernen
+     * @param integer $id ID des Produktes zu der Kundenbestellung
+     */
     public function BestellungProduktEntfernen($id) {
         $produkt = BestellungProdukt::find($id);
         if($produkt != null) {
@@ -72,6 +91,10 @@ class BestellungenController extends AuthController
         return redirect()->back();
     }
 
+    /**
+     * Produkt aus einer Bestellung kostenlos machen
+     * @param integer $id ID des Produktes zu der Kundenbestellung
+     */
     public function BestellungProduktKostenlos($id) {
         $produkt = BestellungProdukt::find($id);
         if($produkt != null) {
@@ -82,6 +105,10 @@ class BestellungenController extends AuthController
         return redirect()->back();
     }
 
+    /**
+     * Speichern einer neuen Bestellung
+     * @param Request $request Request zur Bestellung
+     */
     public function NeueBestellungSpeichern(Request $request) {
         // Prüfe ob Tisch existiert
         $tisch = Tisch::find($request->input('customerTable'));
@@ -143,6 +170,9 @@ class BestellungenController extends AuthController
         return redirect(route('Bestellungen'));
     }
 
+    /**
+     * Offene Abrechnungen anzeigen
+     */
     public function Abrechnung() {
         $bestellungen = Kunde::with(['bestelltes' => function($q) {
             $q->where('Erledigt', '=', true);
@@ -153,11 +183,11 @@ class BestellungenController extends AuthController
         return view("bestellungen.abrechnung", ["tisch_bestellungen"=>$bestellungen]);
     }
 
+    /**
+     * Öffnen einer Abrechnung zu einem Tisch
+     * @param integer $id ID des Tisches zur Abrechnung
+     */
     public function AbrechnungOpen($id) {
-        // Tisch
-        // Kunden
-        // Produkte
-
         $tisch = Tisch::find($id);
         if($tisch !== null) {
             $kunden = Kunde::where("Tisch_ID", "=", $tisch->id)->with(['bestelltes', 'bestelltes.produkte', 'tisch'])->get();
@@ -166,5 +196,21 @@ class BestellungenController extends AuthController
             throw new Exception("Error Processing Request", 1);
             
         }
+    }
+
+    /**
+     * Aufteilen von Produkten auf mehrere Kunden
+     * @todo Programmieren der Aufteilung von Bestellungen
+     */
+    public function AbrechnungTeilen($bestellung_produkte) {
+
+    }
+
+    /**
+     * Abrechnung zu einem Kunden / bzw. eines Tisches abschließen
+     * @todo Programmieren des Abrechnungs-Abschlusses
+     */
+    public function AbrechnungClose($customer_id) {
+
     }
 }
