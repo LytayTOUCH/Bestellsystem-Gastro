@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use \App\Kunde;
+use \App\Models\Bestellungen\Kunde;
 
 class Tisch extends Model
 {

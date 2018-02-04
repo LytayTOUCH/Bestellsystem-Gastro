@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Verwaltung;
 use App\Http\Requests\ProduktSpeichern;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
-use App\Produkt;
-use App\Kategorie;
+use App\Models\Produkte\Produkt;
+use App\Models\Produkte\Kategorie;
 
 class ProduktController extends AuthController
 {

@@ -1,7 +1,6 @@
 <?php
 
-namespace App;
-
+namespace App\Models\Bestellungen;
 use Illuminate\Database\Eloquent\Model;
 
 class KundeBestellung extends Model

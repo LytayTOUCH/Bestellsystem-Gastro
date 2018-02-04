@@ -3,11 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use \App\KundeBestellung;
-use \App\BestellungProdukt;
-use \App\Bestellung;
-use \App\Tisch;
-use \App\Kunde;
+use \App\Models\Bestellungen\KundeBestellung;
+use \App\Models\Bestellungen\BestellungProdukt;
+use \App\Models\Bestellungen\Bestellung;
+use \App\Models\Tisch;
+use \App\Models\Bestellungen\Kunde;
 
 class DeleteData extends Command
 {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Verwaltung;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Http\Requests\TischSpeichern;
-use App\Tisch;
+use App\Models\Tisch;
 
 class TischController extends AuthController
 {

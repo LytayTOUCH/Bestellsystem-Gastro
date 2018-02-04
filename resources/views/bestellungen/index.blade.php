@@ -15,7 +15,7 @@
                     @foreach($bestellungen as $bestellungId => $bestellungData)
                         <div class="card card-default">
                             <div class="card-body">
-                                <b>Bestellung von: {{\App\Tisch::find($bestellungData['tisch'])->Name}}</b>
+                                <b>Bestellung von: {{\App\Models\Tisch::find($bestellungData['tisch'])->Name}}</b>
                                 <br>
                                 <table class="table">
                                     <tr>
@@ -24,7 +24,7 @@
                                         <th></th>
                                     </tr>
                                     @foreach($bestellungData['produkte'] as $produkt)
-                                        <?php $produktI = \App\Produkt::find($produkt->Produkt_ID) ?>
+                                        <?php $produktI = \App\Models\Produkte\Produkt::find($produkt->Produkt_ID) ?>
                                         <tr>
                                             <td>{{$produktI->name}}</td>
                                             <td><small>{{number_format($produkt->Preis, 2, ',', '.')}} €</small></td>

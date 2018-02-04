@@ -1,7 +1,6 @@
 <?php
 
-namespace App;
-
+namespace App\Models\Bestellungen;
 use Illuminate\Database\Eloquent\Model;
 
 class Kunde extends Model
@@ -9,7 +8,7 @@ class Kunde extends Model
     protected $table="Kunden";
 
     public function tisch() {
-    	return $this->hasOne('App\Tisch', 'id', 'Tisch_ID');
+    	return $this->hasOne('App\Models\Tisch', 'id', 'Tisch_ID');
     }
 
     public static function offeneBestellungenCount($kundenId) {
@@ -25,8 +24,8 @@ class Kunde extends Model
 
     public function bestelltes() {
     	return $this->hasManyThrough(
-    		'App\Bestellung', 
-    		'App\KundeBestellung',
+    		'App\Models\Bestellungen\Bestellung', 
+    		'App\Models\Bestellungen\KundeBestellung',
     		'Kunden_ID',
             'id'
     	);

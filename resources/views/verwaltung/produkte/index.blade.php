@@ -27,7 +27,7 @@
 								<th class="col-md-4">Preis</th>
 								<th class="col-md-4">Aktionen</th>
 							</tr>
-							@foreach( \App\Produkt::where('category', $kategorie->id)->get() as $produkt)
+							@foreach( \App\Models\Produkte\Produkt::where('category', $kategorie->id)->get() as $produkt)
 							<tr>
 								<td>{{ $produkt->name }}</td>
 								<td>{{ number_format($produkt->price, 2, ',', '.') }}€</td>

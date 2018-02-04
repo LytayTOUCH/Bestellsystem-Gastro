@@ -19,7 +19,7 @@
 			            			@foreach($bestelltes->produkte as $produkt)
 			            				<tr>
 			            					<td><input type="checkbox" name=""></td>
-			            					<td>{{\App\Produkt::find($produkt->Produkt_ID)->name}}</td>
+			            					<td>{{\App\Models\Produkte\Produkt::find($produkt->Produkt_ID)->name}}</td>
 			            					<td>{{number_format($produkt->Preis, 2, ",", ".")}} €</td>
 			            				</tr>
 			                		@endforeach

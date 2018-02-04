@@ -23,7 +23,7 @@
 							<tr>
 								<td>{{$kategorie->name}}</td>
 								<td><a href="{{ route('Verwaltung.Kategorien.Bearbeiten', ['id'=>$kategorie->id]) }}">Bearbeiten</a>
-								@if(\App\Kategorie::all()->count() > 1)
+								@if(\App\Models\Produkte\Kategorie::all()->count() > 1)
 								 | <a href="{{ route('Verwaltung.Kategorien.Entfernen', ['id'=>$kategorie->id]) }}" class="text-danger">Löschen</a>
 								@endif
 								</td>

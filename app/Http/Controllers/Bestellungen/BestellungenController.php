@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Bestellungen;
 
-use \App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
-use \App\KundeBestellung;
-use \App\BestellungProdukt;
-use \App\Produkt;
-use \App\Bestellung;
-use \App\Kategorie;
-use \App\Tisch;
-use \App\Kunde;
+use \App\Http\Controllers\AuthController;
+use \App\Models\Bestellungen\KundeBestellung;
+use \App\Models\Bestellungen\BestellungProdukt;
+use \App\Models\Bestellungen\Bestellung;
+use \App\Models\Bestellungen\Kunde;
+use \App\Models\Produkte\Produkt;
+use \App\Models\Produkte\Kategorie;
+use \App\Models\Tisch;
 
 
 class BestellungenController extends AuthController

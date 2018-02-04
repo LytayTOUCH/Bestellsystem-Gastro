@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Verwaltung;
 use App\Http\Requests\KategorieSpeichern;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
-use App\Kategorie;
-use App\Produkt;
+use App\Models\Produkte\Kategorie;
+use App\Models\Produkte\Produkt;
 
 class KategorienController extends AuthController
 {

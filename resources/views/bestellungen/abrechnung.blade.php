@@ -9,10 +9,13 @@
         <div class="card card-default">
             <div class="card-body">
                 <h3>Abrechnung</h3>
+                <?php
+                    $summe = 0;           
+                ?>
                 @foreach($tisch_bestellungen as $kunde)
                     <p>
                         <b>{{$kunde->tisch->Name}}</b> 
-                        @if(\App\Kunde::offeneBestellungenCount($kunde->id) > 0)
+                        @if(\App\Models\Bestellungen\Kunde::offeneBestellungenCount($kunde->id) > 0)
                             <span class="badge badge-danger">Hat offene Bestellung</span>
                         @endif
                     </p>
@@ -22,9 +25,6 @@
                             <th>Preis</th>
                             <th>Aktionen</th>
                         </tr>
-                        <?php
-                            $summe = 0;           
-                        ?>
                         @foreach($kunde->bestelltes as $bestellung)
                             @if(count($bestellung->produkte) == 0)
                                 <tr><td colspan="3">Keine Produkte oder Berechnung gesperrt</td></tr>
@@ -46,6 +46,7 @@
                                     </tr>
                                 @endforeach
                             @endif
+                            @if($loop->last)
                             <tr>
                                 <td></td>
                                 <td>
@@ -55,6 +56,7 @@
                                     <a class="btn btn-sm btn-info" href="{{route('Bestellungen.Abrechnung.Bearbeiten', ['id'=>$kunde->tisch->id])}}">Abrechnen</a>
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                     </table>
                 @endforeach  

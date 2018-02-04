@@ -1,7 +1,6 @@
 <?php
 
-namespace App;
-
+namespace App\Models\Produkte;
 use Illuminate\Database\Eloquent\Model;
 
 class Kategorie extends Model
