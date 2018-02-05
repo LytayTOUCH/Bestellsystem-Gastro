@@ -12,6 +12,9 @@ use \App\Models\Produkte\Produkt;
 use \App\Models\Produkte\Kategorie;
 use \App\Models\Tisch;
 
+use ElephantIO\Client;
+use ElephantIO\Engine\SocketIO\Version2X;
+
 /**
  * @category  Bestellungen
  * @author  Dennis Heinrich
@@ -110,6 +113,8 @@ class BestellungenController extends AuthController
      * @param Request $request Request zur Bestellung
      */
     public function NeueBestellungSpeichern(Request $request) {
+        // Variable zur Datenbestimmung für NodeJS
+        $produkte = [];
         // Prüfe ob Tisch existiert
         $tisch = Tisch::find($request->input('customerTable'));
         if($tisch->count() !== null) {
@@ -152,6 +157,13 @@ class BestellungenController extends AuthController
                         $produktPreis = Produkt::find($produkt); 
                         $bestellungProdukte->Preis = $produktPreis->price;
                         $bestellungProdukte->save();
+
+                        $produkte[] = [
+                            "id" => $bestellungProdukte->id,
+                            "product_id" => $produkt,
+                            "product_price" => $bestellungProdukte->Preis,
+                            "product_name" => Produkt::find($produkt)->name,
+                        ];
                     }   
                 }
 
@@ -164,6 +176,18 @@ class BestellungenController extends AuthController
             // Setze Tisch als besetzt
             $tisch->Besetzt = true;
             $tisch->save();
+
+            $client = new Client(new Version2X('http://localhost:3000', []));
+            $client->initialize();
+            $client->emit('order created', [
+                'id' => $bestellung->id,
+                'table' => [
+                    'id' => $tisch->id,
+                    'name' => $tisch->Name,
+                ],
+                'produkte' => $produkte
+            ]);
+            $client->close();
         } else {
             throw new BadMethodCallException("Nicht implementierte Funktion");
         }

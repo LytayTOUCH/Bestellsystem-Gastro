@@ -12,21 +12,26 @@ io.on('connection', function(socket){
 	// Bestellungen
 	socket.on('order created', function(data) {
 		console.log('Eine Bestellung wurde generiert');
-		socket.broadcast.emit('order created', null);
+		socket.broadcast.emit('order created', data);
 	});	
 
 	socket.on('order changed', function(data) {
+		// Bestellung(id)
+		// Table(Name)
+		// Produkte(Name, Preise, Id)
 		console.log('Eine Bestellung wurde bearbeitet');
 		socket.broadcast.emit('order changed', null);
 	});
 
 	socket.on('order closed', function(data) {
+		// Bestellung(id)
 		console.log('Eine Bestellung wurde abgeschlossen');
 		socket.broadcast.emit('order closed', null);
 	});
 
 	// Abrechnungen
 	socket.on('order payed', function(data) {
+		// Kunde(id)
 		console.log('Eine Abrechnungen wurde durchgeführt');
 		socket.broadcast.emit('order payed', null);
 	});
