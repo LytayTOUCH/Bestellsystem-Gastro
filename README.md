@@ -15,4 +15,4 @@ Installationsanleitung:
 - In der .env die Sentry-DSN setzen / APP_ENV auf "productive" setzen
 - Composer für den Updater global installieren
 - NodeJS installieren
-- Node-Server starten und in Startup anbinden
+- Node-Server starten und in Startup anbinden (https://www.npmjs.com/package/forever)
