@@ -10,7 +10,9 @@ da es sich hierbei um eine private, kostenfreie "Open-Source" Software handelt.
 Eingesetzt:
 - 1001 Nacht (Uelzen)
 
-Wichtige Informationen für den produktiven Einsatz
+Installationsanleitung:
 - .env Anpassen für Einstellungen
 - In der .env die Sentry-DSN setzen / APP_ENV auf "productive" setzen
 - Composer für den Updater global installieren
+- NodeJS installieren
+- Node-Server starten und in Startup anbinden
