@@ -15,6 +15,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
     'version' => env('APP_VERSION', '0.4'),
+    'node_addr' => env('NODE_ADDR', 'http://localhost:3000'),
 
     /*
     |--------------------------------------------------------------------------

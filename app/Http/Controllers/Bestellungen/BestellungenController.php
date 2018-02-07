@@ -77,7 +77,16 @@ class BestellungenController extends AuthController
         if($bestellung != null) {
             $bestellung->Erledigt = true;
             $bestellung->save();
+            
+            $client = new Client(new Version2X(config('app.node_addr'), []));
+            $client->initialize();
+            $client->emit('order closed', [
+                'id' => $id
+            ]);
+            $client->close();
+
         }
+
         return redirect(route('Bestellungen'));
     }
 
@@ -171,23 +180,23 @@ class BestellungenController extends AuthController
                 $kundeBestellung->Kunden_ID = $kunde->id;
                 $kundeBestellung->Bestellung_ID = $bestellung->id;
                 $kundeBestellung->save();
+
+                // Setze Tisch als besetzt
+                $tisch->Besetzt = true;
+                $tisch->save();
+
+                $client = new Client(new Version2X(config('app.node_addr'), []));
+                $client->initialize();
+                $client->emit('order created', [
+                    'id' => $bestellung->id,
+                    'table' => [
+                        'id' => $tisch->id,
+                        'name' => $tisch->Name,
+                    ],
+                    'produkte' => $produkte
+                ]);
+                $client->close();
             }
-
-            // Setze Tisch als besetzt
-            $tisch->Besetzt = true;
-            $tisch->save();
-
-            $client = new Client(new Version2X('http://localhost:3000', []));
-            $client->initialize();
-            $client->emit('order created', [
-                'id' => $bestellung->id,
-                'table' => [
-                    'id' => $tisch->id,
-                    'name' => $tisch->Name,
-                ],
-                'produkte' => $produkte
-            ]);
-            $client->close();
         } else {
             throw new BadMethodCallException("Nicht implementierte Funktion");
         }
