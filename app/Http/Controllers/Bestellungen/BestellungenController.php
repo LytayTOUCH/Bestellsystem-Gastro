@@ -64,6 +64,13 @@ class BestellungenController extends AuthController
             BestellungProdukt::where('Bestellung_ID', $id)->delete();
             KundeBestellung::where('Bestellung_ID', $id)->delete();
             $bestellung->delete();
+
+            $client = new Client(new Version2X(config('app.node_addr'), []));
+            $client->initialize();
+            $client->emit('order closed', [
+                'id' => $id
+            ]);
+            $client->close();
         }
         return redirect(route('Bestellungen'));
     }
@@ -170,7 +177,7 @@ class BestellungenController extends AuthController
                         $produkte[] = [
                             "id" => $bestellungProdukte->id,
                             "product_id" => $produkt,
-                            "product_price" => $bestellungProdukte->Preis,
+                            "product_price" => number_format($bestellungProdukte->Preis, 2, ',', '.'),
                             "product_name" => Produkt::find($produkt)->name,
                         ];
                     }   

@@ -14,9 +14,32 @@ $(document).ready(function() {
 			// Spiele einen Sound ab
 			new Audio('../sounds/confident.mp3').play()
 
+			var template = $("#order_template").clone();
+			template.removeAttr('id');
+			template.attr('order_id', data.id);
+			template.appendTo("#orderlist");
+			
+			var template = $(".order[order_id='"+data.id+"']");
+			template.find('.order_tablename').text(data.table.name);
+			template.find('.order_close_link').attr('href', 'bestellungen/abschliessen/'+data.id);
+			template.find('.order_storno_link').attr('href', 'bestellungen/stornieren/'+data.id);
+
+			// Berücksichtige das Template in der If-Abfrage
+			if($('.remove_on_incoming_order').length == 1) {
+				$('.remove_on_incoming_order').remove();
+			}
+
+			// Füge Produkte ein
+			for(i=0; i < data.produkte.length; ++i) {
+				template.find('.products tr:last').after('<tr><td>'+data.produkte[i].product_name+'</td>'
+						+ '<td>'+data.produkte[i].product_price+' €</td>'
+						+ '<td><a href="bestellungen/produkt/stornieren/'+data.produkte[i].id+'" class="text-muted">Entfernen</a>, '
+						+ '<a href="bestellungen/produkt/kostenlos/'+data.produkte[i].id+'" class="text-muted">Kostenlos</a></td>'
+						+ '</tr>');
+			}
+
 			/*
 			// Füge diese zu der Liste hinzu
-			var template = $("#order_template");
 			var content = template.clone();
 
 			if($('.remove_on_incoming_order').length) {
@@ -30,8 +53,7 @@ $(document).ready(function() {
 			var order = $('order[order_id="'+data.id+'"]');
 			console.log(order);
 			order.find('.order_tablename').text(data.table.name);
-			//content.find('.order_close_link').attr('href', 'bestellungen/abschliessen/'+data.id);
-			//content.find('.order_storno_link').attr('href', 'bestellungen/stornieren/'+data.id);
+			
 			// http://bestellsystem.local/bestellungen/produkt/stornieren/1
 			// http://bestellsystem.local/bestellungen/produkt/kostenlos/1*/
 		});

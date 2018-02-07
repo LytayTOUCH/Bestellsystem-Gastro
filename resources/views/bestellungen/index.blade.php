@@ -8,7 +8,7 @@
     <div class="col-md-12">
         <div class="card card-default">
             <div id="orders" class="card-body">
-                <h3>Bestellungen</h3>
+                <!--<h3>Bestellungen</h3>-->
                     <div id="orderlist"> 
                         @if (count($bestellungen) == 0)
                             <i class="remove_on_incoming_order">Keine offenen Bestellungen</i>
@@ -28,7 +28,7 @@
                                                 <?php $produktI = \App\Models\Produkte\Produkt::find($produkt->Produkt_ID) ?>
                                                 <tr>
                                                     <td>{{$produktI->name}}</td>
-                                                    <td><small>{{number_format($produkt->Preis, 2, ',', '.')}} €</small></td>
+                                                    <td>{{number_format($produkt->Preis, 2, ',', '.')}} €</td>
                                                     <td>
                                                         <a href="{{ route('Bestellungen.Produkt.Entfernen', ['id'=>$produkt->id]) }}" class="text-muted">Entfernen</a>, 
                                                         <a href="{{ route('Bestellungen.Produkt.Kostenlos', ['id'=>$produkt->id]) }}" class="text-muted">Kostenlos</a>
@@ -41,7 +41,7 @@
                                     </div>
                                 </div>
                                 @if ($loop->remaining)
-                                    <br>
+                                    <!--<br>-->
                                 @endif
                             @endforeach
                         @endif 
@@ -50,25 +50,15 @@
                 <!-- Dynamic Template -->
                 <div style="display: none;">
                     <div id="order_template" class="card card-default order" order_id="X">
-                        <br>
                         <div class="card-body">
-                            <b>Bestellung von: <div class="order_tablename"></div></b>
+                            <b>Bestellung von: <span class="order_tablename"></span></b>
                             <br>
-                            <table class="table">
+                            <table class="table products">
                                 <tr>
                                     <th>Produktname</th>
                                     <th>Preis</th>
                                     <th></th>
                                 </tr>
-                                <!--
-                                <tr>
-                                    <td>PRODUKTNAME</td>
-                                    <td><small>PREIS</small></td>
-                                    <td>
-                                        <a href="" class="text-muted">Entfernen</a>, 
-                                        <a href="" class="text-muted">Kostenlos</a>
-                                    </td>
-                                </tr>-->
                             </table>
                             <a href="" class="btn btn-sm btn-info order_close_link" style="margin-top: 3px; margin-bottom: 10px;">Abschließen</a>
                             <a href="" class="btn btn-sm btn-warning order_storno_link" style="margin-top: 3px; margin-bottom: 10px;">Stornieren</a>
