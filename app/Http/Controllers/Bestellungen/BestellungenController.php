@@ -105,6 +105,13 @@ class BestellungenController extends AuthController
         $produkt = BestellungProdukt::find($id);
         if($produkt != null) {
             $produkt->delete();
+
+            // Prüfe, ob es das letzte Produkt war
+            $order_id = $produkt->Bestellung_ID;
+            $order = Bestellung::with(['produkte'])->where('id', '=', $order_id)->first();
+            if(count($order->produkte) == 0) {
+                $order->delete();
+            }
         }
 
         return redirect()->back();
