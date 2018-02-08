@@ -21,31 +21,38 @@
                     </p>
                     <table class="table">
                         <tr>
-                            <th>Produktname</th>
-                            <th>Preis</th>
-                            <th>Aktionen</th>
+                            <th class="w-50">Produktname</th>
+                            <th class="w-25">Preis</th>
+                            <th class="w-25">Aktionen</th>
                         </tr>
                         @foreach($kunde->bestelltes as $bestellung)
-                            @if(count($bestellung->produkte) == 0)
-                                <tr><td colspan="3">Keine Produkte oder Berechnung gesperrt</td></tr>
-                            @else
-                                @foreach($bestellung->produkte as $produkt)
-                                    <?php 
-                                        $summe += $produkt->Preis;
-                                    ?>
-                                    <tr>
-                                        <td>
-                                            {{$produkt->produkt->name}}
-                                        </td>
-                                        <td>
-                                            {{number_format($produkt->Preis, 2, ",", ".")}} €
-                                        </td>
-                                        <td>
-                                            <a href="{{route('Bestellungen.Produkt.Kostenlos', ['id'=>$produkt->id])}}" class="text-muted">Kostenlos</a> | <a href="{{route('Bestellungen.Produkt.Entfernen', ['id'=>$produkt->id])}}" class="text-danger">Entfernen</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                            <?php $produkte = 0; ?>
+                            @foreach($bestellung->produkte as $produkt)
+                                <?php
+                                    $produkte += 1;
+                                    $summe += $produkt->Preis;
+                                ?>
+                                <tr>
+                                    <td>
+                                        {{$produkt->produkt->name}}
+                                    </td>
+                                    <td>
+                                        {{number_format($produkt->Preis, 2, ",", ".")}} €
+                                    </td>
+                                    <td>
+                                        <a href="{{route('Bestellungen.Produkt.Kostenlos', ['id'=>$produkt->id])}}" class="text-muted">Kostenlos</a> | <a href="{{route('Bestellungen.Produkt.Entfernen', ['id'=>$produkt->id])}}" class="text-danger">Entfernen</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            @if($produkte == 0)
+                                <tr>
+                                    <td colspan="3">
+                                        Keine Produkte oder Tisch hat offene Bestellung
+                                    </td>
+                                </tr>
                             @endif
+
                             @if($loop->last)
                             <tr>
                                 <td></td>

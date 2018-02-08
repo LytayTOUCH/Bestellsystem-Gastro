@@ -37,25 +37,6 @@ $(document).ready(function() {
 						+ '<a href="bestellungen/produkt/kostenlos/'+data.produkte[i].id+'" class="text-muted">Kostenlos</a></td>'
 						+ '</tr>');
 			}
-
-			/*
-			// Füge diese zu der Liste hinzu
-			var content = template.clone();
-
-			if($('.remove_on_incoming_order').length) {
-				$('.remove_on_incoming_order').remove();
-			}
-
-			content.removeAttr('id', null);
-			content.attr('order_id', data.id);
-			content.appendTo("#orderlist");
-
-			var order = $('order[order_id="'+data.id+'"]');
-			console.log(order);
-			order.find('.order_tablename').text(data.table.name);
-			
-			// http://bestellsystem.local/bestellungen/produkt/stornieren/1
-			// http://bestellsystem.local/bestellungen/produkt/kostenlos/1*/
 		});
 
 		socket.on('order changed', function(data) {
@@ -69,6 +50,11 @@ $(document).ready(function() {
 				$('#orderlist').text('Keine offenen Bestellungen');
 			}
 		});
+
+		socket.on('delete all', function(data) {
+			$('.order[order_id]').remove();
+			$('#orderlist').text('Keine offenen Bestellungen');
+		});
 	}
 
 	// Abrechnungen
@@ -81,7 +67,7 @@ $(document).ready(function() {
 	});
 });
 
-	// Wartungsarbeiten
-	function sendMaintenanceMessage(text) {
-		socket.emit('maintenance message', {message: text})
-	}
+// Wartungsarbeiten
+function sendMaintenanceMessage(text) {
+	socket.emit('maintenance message', {message: text})
+}

@@ -9,6 +9,9 @@ use \App\Models\Bestellungen\Bestellung;
 use \App\Models\Tisch;
 use \App\Models\Bestellungen\Kunde;
 
+use ElephantIO\Client;
+use ElephantIO\Engine\SocketIO\Version2X;
+
 class DeleteData extends Command
 {
     /**
@@ -47,5 +50,10 @@ class DeleteData extends Command
         Bestellung::truncate();
         Kunde::truncate();
         Tisch::where('Besetzt', true)->update(['Besetzt' => false]);
+
+        $client = new Client(new Version2X(config('app.node_addr'), []));
+        $client->initialize();
+        $client->emit('delete all', []);
+        $client->close();
     }
 }

@@ -47,4 +47,8 @@ io.on('connection', function(socket){
 	socket.on('disconnect', function(){
 		console.log('Eine Verbindung wurde getrennt');
 	});
+
+	socket.on('delete all', function() {
+		socket.broadcast.emit('delete all', null);
+	});
 });

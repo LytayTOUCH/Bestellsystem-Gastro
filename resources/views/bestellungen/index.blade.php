@@ -20,9 +20,9 @@
                                         <br>
                                         <table class="table">
                                             <tr>
-                                                <th>Produktname</th>
-                                                <th>Preis</th>
-                                                <th></th>
+                                                <th class="w-50">Produktname</th>
+                                                <th class="w-25">Preis</th>
+                                                <th class=""></th>
                                             </tr>
                                             @foreach($bestellungData['produkte'] as $produkt)
                                                 <?php $produktI = \App\Models\Produkte\Produkt::find($produkt->Produkt_ID) ?>
@@ -40,24 +40,21 @@
                                         <a href="{{ route('Bestellungen.Stornieren', ['id'=>$bestellungId]) }}" class="btn btn-sm btn-warning" style="margin-top: 3px; margin-bottom: 10px;">Stornieren</a>
                                     </div>
                                 </div>
-                                @if ($loop->remaining)
-                                    <!--<br>-->
-                                @endif
                             @endforeach
                         @endif 
                     </div>  
 
                 <!-- Dynamic Template -->
                 <div style="display: none;">
-                    <div id="order_template" class="card card-default order" order_id="X">
+                    <div id="order_template" class="card card-default order">
                         <div class="card-body">
                             <b>Bestellung von: <span class="order_tablename"></span></b>
                             <br>
                             <table class="table products">
                                 <tr>
-                                    <th>Produktname</th>
-                                    <th>Preis</th>
-                                    <th></th>
+                                    <th class="w-75">Produktname</th>
+                                    <th class="w-25">Preis</th>
+                                    <th class=""></th>
                                 </tr>
                             </table>
                             <a href="" class="btn btn-sm btn-info order_close_link" style="margin-top: 3px; margin-bottom: 10px;">Abschließen</a>
