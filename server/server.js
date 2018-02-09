@@ -30,13 +30,6 @@ io.on('connection', function(socket){
 		socket.broadcast.emit('order closed', data);
 	});
 
-	// -------- Sonstiges
-	// Wartungsarbeiten
-	socket.on('maintenance message', function(data) {
-		console.log('Eine Wartungsnachricht wurde an alle Clients gesendet');
-		socket.broadcast.emit('maintenance message', data);
-	})
-
 	// Abrechnungen
 	socket.on('order payed', function(data) {
 		// Kunde(id)

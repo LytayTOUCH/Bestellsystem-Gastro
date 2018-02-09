@@ -1,9 +1,9 @@
-const socket = io('http://localhost:3000');
-socket.on('connected', function () {
-	console.log('Die Verbindung zum Dynamic-Server wurde hergestellt');
-});
-
 $(document).ready(function() {
+	const socket = io('http://localhost:3000');
+	socket.on('connected', function () {
+		console.log('Die Verbindung zum Dynamic-Server wurde hergestellt');
+	});
+
 	// Bestellungen
 	if($("#orders").length) {
 		// Aktionen bei Bestellungen
@@ -47,7 +47,7 @@ $(document).ready(function() {
 			$('.order[order_id="'+data.id+'"]').remove();
 			console.log($('.order').length);
 			if($('.order').length == 1) {
-				$('#orderlist').text('Keine offenen Bestellungen');
+				$('#orderlist').after('<i class="remove_on_incoming_order">Keine offenen Bestellungen</a>');
 			}
 		});
 
@@ -66,8 +66,3 @@ $(document).ready(function() {
 		alert(data.message);
 	});
 });
-
-// Wartungsarbeiten
-function sendMaintenanceMessage(text) {
-	socket.emit('maintenance message', {message: text})
-}

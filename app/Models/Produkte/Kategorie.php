@@ -8,6 +8,6 @@ class Kategorie extends Model
     protected $table = 'Kategorien';
 
     public function produkte() {
-    	return $this->hasMany('App\Produkt', 'category', 'id');
+    	return $this->hasMany('App\Models\Produkte\Produkt', 'category', 'id');
     }
 }

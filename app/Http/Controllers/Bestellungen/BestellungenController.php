@@ -42,13 +42,16 @@ class BestellungenController extends AuthController
      * Anzeigen des Formulars für eine neue Bestellung 
      */
     public function NeueBestellung() {
-    	$kategorien = Kategorie::all();
+    	$kategorien = Kategorie::with('produkte')->get();
         $tische = Tisch::all();
     	$selectedAuswahl = [];
 
     	foreach($kategorien as $kategorie) {
-    		$produkte = Produkt::where('category', $kategorie->id)->get();
-    		$selectedAuswahl[$kategorie->name] = ["id" => $kategorie->id, "name" => $kategorie->name, "produkte" => $produkte];
+            // Zeige nur Kategorien mit Produkten
+            if(count($kategorie->produkte) > 0) {
+        		$produkte = Produkt::where('category', $kategorie->id)->get();
+        		$selectedAuswahl[$kategorie->name] = ["id" => $kategorie->id, "name" => $kategorie->name, "produkte" => $produkte];
+            }
     	}
 
     	return view('bestellungen.bestellung', ['selectedCatsAndProds' => $selectedAuswahl, 'tische' => $tische]);
