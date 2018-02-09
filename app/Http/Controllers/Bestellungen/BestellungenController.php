@@ -141,6 +141,19 @@ class BestellungenController extends AuthController
     public function NeueBestellungSpeichern(Request $request) {
         // Variable zur Datenbestimmung für NodeJS
         $produkte = [];
+
+        // Prüfe ob Produkte enthalten sind
+        $produkteAnzahl = 0;
+        foreach($request->input('anzahl') as $produkt => $anzahl) {
+            if(!$anzahl <= 0) {
+                $produkteAnzahl += $anzahl;
+            }
+        }
+
+        if(!$produkteAnzahl > 0) {
+            return redirect(route('Bestellungen'))->with('error_message', 'Die Bestellung enthielt keine Produkte');
+        }
+
         // Prüfe ob Tisch existiert
         $tisch = Tisch::find($request->input('customerTable'));
         if($tisch->count() !== null) {
@@ -159,14 +172,6 @@ class BestellungenController extends AuthController
 
             $kunde->Abgerechnet = false;
             $kunde->save();
-
-            // Prüfe ob Produkte enthalten sind
-            $produkteAnzahl = 0;
-            foreach($request->input('anzahl') as $produkt => $anzahl) {
-                if(!$anzahl <= 0) {
-                    $produkteAnzahl += $anzahl;
-                }
-            }
 
             // Erstelle eine neue Bestellung
             if($produkteAnzahl > 0) {
