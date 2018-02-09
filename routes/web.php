@@ -41,6 +41,12 @@ Route::prefix('bestellungen')->group(function() {
 Route::prefix('verwaltung')->group(function() {
 	Route::get('/', 'Verwaltung\VerwaltungController@index')->name('Verwaltung');
 
+	// Einstellungen der Seite
+	Route::prefix('site')->group(function() {
+		Route::get('/', 'Verwaltung\SiteSettingsController@index')->name('Verwaltung.Seite');
+		Route::post('/', 'Verwaltung\SiteSettingsController@EinstellungenSpeichern')->name('Verwaltung.SeiteSpeichern');
+	});
+
 	// Benutzerverwaltung
 	Route::prefix('nutzer')->group(function() {
 		Route::get('/', 'Verwaltung\NutzerController@index')->name('Verwaltung.Nutzer');
