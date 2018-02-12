@@ -8,7 +8,10 @@
     <div class="col-md-12">
         <div class="card card-default">
             <div class="card-body">
-                <form method="POST" action="{{route('Bestellungen.AufnehmenSpeichern')}}" class="form">
+                @if(count($tische) == 0 || count($selectedCatsAndProds) == 0)
+                    <p>Keine Tische oder Produkte in der Verwaltung angelegt!</p>
+                @else
+                    <form method="POST" action="{{route('Bestellungen.AufnehmenSpeichern')}}" class="form">
                     <label for="customerTable"><b>Tischauswahl</b></label>
                     <select id="customerTable" name="customerTable" class="form-control">
                         @foreach($tische as $tisch)
@@ -28,7 +31,7 @@
                             @foreach($CatWithProd['produkte'] as $Product)
                             <tr>
                                 <td>
-                                    <input type="number" name="anzahl[{{$Product->id}}]" class="form-control" min="0" max="1000">
+                                    <input type="number" name="anzahl[{{$Product->id}}]" class="form-control" min="0" max="1000" placeholder="0">
                                 </td>
                                 <td>
                                     <label for="anzahl[{{$Product->id}}]">{{$Product->name}}</label>
@@ -38,7 +41,8 @@
                         </table>
                     @endforeach
                     <input type="submit" value="Bestellung absenden" class="form-control btn-success">
-                </form>
+                    </form>
+                @endif      
             </div>
         </div>
     </div>
