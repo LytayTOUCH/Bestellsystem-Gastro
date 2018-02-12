@@ -117,6 +117,8 @@ class BestellungenController extends AuthController
             }
         }
 
+        // @todo NodeJS
+
         return redirect()->back();
     }
 
@@ -130,6 +132,8 @@ class BestellungenController extends AuthController
             $produkt->Preis = 0;
             $produkt->save();
         }
+
+        // @todo NodeJS
 
         return redirect()->back();
     }

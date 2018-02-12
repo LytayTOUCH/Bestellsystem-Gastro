@@ -28,7 +28,7 @@
                             @foreach($CatWithProd['produkte'] as $Product)
                             <tr>
                                 <td>
-                                    <input type="number" name="anzahl[{{$Product->id}}]" class="form-control" value="0" min="0" max="1000">
+                                    <input type="number" name="anzahl[{{$Product->id}}]" class="form-control" min="0" max="1000">
                                 </td>
                                 <td>
                                     <label for="anzahl[{{$Product->id}}]">{{$Product->name}}</label>

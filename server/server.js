@@ -17,11 +17,15 @@ io.on('connection', function(socket){
 	});	 
 
 	socket.on('order changed', function(data) {
-		// Bestellung(id)
-		// Table(Name)
-		// Produkte(Name, Preise, Id)
-		console.log('Eine Bestellung wurde bearbeitet');
-		socket.broadcast.emit('order changed', null);
+		console.log('Eine Bestellung wurde bearbeitet: ' + data.id);
+
+		// Wenn keine Produkte mehr vorhanden sind, entferne Bestellung
+		if(data.produkte.length >= 1) {
+			socket.broadcast.emit('order changed', null);
+		} else {
+			console.log('Eine Bestellung wurde aufgrund keiner Produkte geschlossen: ' + data.id);
+			socket.broadcast.emit('order closed', data);
+		}
 	});
 
 	socket.on('order closed', function(data) {
