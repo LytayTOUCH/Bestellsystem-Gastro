@@ -27,13 +27,14 @@
 					@endforeach
 
 				<hr>
-				@if($isDevEnv == true)
 				
 				<!-- Button trigger modal -->
 				<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#developerCreateIssueModal">
 					Neuen Issue erstellen
 				</button>
 
+				@if($isDevEnv == true)
+				
 				<!-- Modal -->
 				<form method="post" action="{{ route('Verwaltung.Entwickler.CreateIssue') }}">
 					<div class="modal fade" id="developerCreateIssueModal" tabindex="-1" role="dialog" aria-labelledby="developerModalIssuesLabelBy" aria-hidden="true">
