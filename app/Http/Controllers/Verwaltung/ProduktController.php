@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Models\Produkte\Produkt;
 use App\Models\Produkte\Kategorie;
+use App\Models\Bestellungen\BestellungProdukt;
 
 class ProduktController extends AuthController
 {
@@ -61,7 +62,19 @@ class ProduktController extends AuthController
     public function entfernen($id) {
     	$produkt = Produkt::where('id', $id)->first();
     	if($produkt->count() >= 1) {
+            $produkte_bestellt = BestellungProdukt::where('Produkt_ID', '=', $id)->with(['bestellung', 'bestellung.produkte'])->get();
+            
+            foreach($produkte_bestellt as $produkt_bestellt) {
+                $bestellung = $produkt_bestellt->bestellung;
+                if(count($bestellung->produkte) == 1) {
+                    $bestellung->delete();
+                }
+
+                $produkt_bestellt->delete();
+            }
+
 	    	$produkt->delete();
+
             return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde entfernt');
     	}
 
