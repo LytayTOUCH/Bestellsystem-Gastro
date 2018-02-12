@@ -65,7 +65,17 @@ class BestellungenController extends AuthController
         $bestellung = Bestellung::find($id);
         if($bestellung != null) {
             BestellungProdukt::where('Bestellung_ID', $id)->delete();
-            KundeBestellung::where('Bestellung_ID', $id)->delete();
+            $kundeB = KundeBestellung::where('Bestellung_ID', $id)->first();
+            
+            // Prüfe ob Kunde keine weiteren Bestellungen zum Abschließen hat
+
+            if(Kunde::offeneBestellungenCount($kundeB->Kunden_ID) <= 1) {
+                $kunde = Kunde::find($kundeB->Kunden_ID);
+                $kunde->Abgerechnet = true;
+                $kunde->save();
+            }
+
+            $kundeB->delete();
             $bestellung->delete();
 
             $client = new Client(new Version2X(config('app.node_addr'), []));
