@@ -52,7 +52,7 @@
                             <br>
                             <table class="table products">
                                 <tr>
-                                    <th class="w-75">Produktname</th>
+                                    <th class="w-50">Produktname</th>
                                     <th class="w-25">Preis</th>
                                     <th class=""></th>
                                 </tr>
