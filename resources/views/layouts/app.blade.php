@@ -10,7 +10,13 @@
 
     <title>{{ App\Models\SiteSettings::first()->site_name }}</title>
 
-    <link href="{{ asset('favicon.ico') }}" rel="icon" type="image/x-icon" />
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="{{ asset('storage/icons/shisha/favicon.ico') }}">
+    <link rel="apple-touch-icon" type="image/png" href="{{ asset('storage/icons/shisha/icon57.png') }}"><!-- iPhone -->
+    <link rel="apple-touch-icon" type="image/png" sizes="72x72" href="{{ asset('storage/icons/shisha/icon72.png') }}"><!-- iPad -->
+    <link rel="apple-touch-icon" type="image/png" sizes="114x114" href="{{ asset('storage/icons/shisha/icon114.png') }}"><!-- iPhone4 -->
+    <link rel="icon" type="image/png" href="{{ asset('storage/icons/shisha/icon114.png') }}"><!-- Opera Speed Dial, at least 144×114 px -->
+    
+    <link href="{{ asset('storage/icons/shisha/favicon.ico') }}" rel="shortcut icon" type="image/x-icon" />
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
