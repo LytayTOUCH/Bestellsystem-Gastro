@@ -73,7 +73,7 @@ class ProduktController extends AuthController
                 $produkt_bestellt->delete();
             }
 
-	    	$produkt->delete();
+	    $produkt->delete();
 
             return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde entfernt');
     	}
