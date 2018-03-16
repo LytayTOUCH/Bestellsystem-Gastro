@@ -16,6 +16,7 @@ class SiteSettingsController extends AuthController
     public function EinstellungenSpeichern(SeitenEinstellungenSpeichern $request) {
     	$settings = SiteSettings::first();
     	$settings->site_name = $request->input('site_name');
+    	$settings->site_template = $request->input('site_template');
     	$settings->save();
     	return redirect(route('Verwaltung.Seite'))->with('message', 'Einstellungen erfolgreich gespeichert');
     }

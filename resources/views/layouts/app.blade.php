@@ -19,7 +19,7 @@
     <link href="{{ asset('storage/icons/shisha/favicon.ico') }}" rel="shortcut icon" type="image/x-icon" />
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap_'. App\Models\SiteSettings::first()->site_template .'.min.css') }}">
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>

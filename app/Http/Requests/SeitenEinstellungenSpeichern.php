@@ -25,6 +25,7 @@ class SeitenEinstellungenSpeichern extends FormRequest
     {
         return [
             'site_name' => 'required',
+            'site_template' => 'required',
         ];
     }
 
@@ -32,6 +33,7 @@ class SeitenEinstellungenSpeichern extends FormRequest
     {
         return [
             'site_name.required' => 'Ein Seitenname ist erforderlich',
+            'site_template.required' => 'Eine Auswahl des Templates ist erforderlich',
         ];
     }
 }
