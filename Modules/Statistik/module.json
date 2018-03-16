@@ -1,0 +1,16 @@
+{
+    "name": "Statistik",
+    "alias": "statistik",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Statistik\\Providers\\StatistikServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
