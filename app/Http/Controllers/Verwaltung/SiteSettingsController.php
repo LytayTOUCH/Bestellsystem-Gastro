@@ -17,6 +17,13 @@ class SiteSettingsController extends AuthController
     	$settings = SiteSettings::first();
     	$settings->site_name = $request->input('site_name');
     	$settings->site_template = $request->input('site_template');
+        
+        if($request->input('module_warenwirtschaft') == null) {
+            $settings->module_warenwirtschaft = false;
+        } else {
+            $settings->module_warenwirtschaft = true;
+        }
+        
     	$settings->save();
     	return redirect(route('Verwaltung.Seite'))->with('message', 'Einstellungen erfolgreich gespeichert');
     }

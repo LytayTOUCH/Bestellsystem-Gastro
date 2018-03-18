@@ -11,7 +11,6 @@ use \App\Models\Bestellungen\Kunde;
 use \App\Models\Produkte\Produkt;
 use \App\Models\Produkte\Kategorie;
 use \App\Models\Tisch;
-
 use ElephantIO\Client;
 use ElephantIO\Engine\SocketIO\Version2X;
 
@@ -19,8 +18,8 @@ use ElephantIO\Engine\SocketIO\Version2X;
  * @category  Bestellungen
  * @author  Dennis Heinrich
  */
-class BestellungenController extends AuthController
-{
+class BestellungenController extends AuthController {
+
     /**
      * Übersicht der offenen Bestellungen
      */
@@ -32,44 +31,44 @@ class BestellungenController extends AuthController
             $produkte = BestellungProdukt::where('Bestellung_ID', $bestellung->id)->get();
             $kundenBestellung = KundeBestellung::where('Bestellung_ID', $bestellung->id)->get()->first();
             $kunde = Kunde::find($kundenBestellung->Kunden_ID);
-            $allBestellungen[$bestellung->id] = ['tisch' => $kunde->Tisch_ID, 'kunde' => $kunde->id, 'zeit' => $bestellung->created_at, 'produkte'=>$produkte];
+            $allBestellungen[$bestellung->id] = ['tisch' => $kunde->Tisch_ID, 'kunde' => $kunde->id, 'zeit' => $bestellung->created_at, 'produkte' => $produkte];
         }
 
-    	return view("bestellungen.index", ['bestellungen' => $allBestellungen]);
+        return view("bestellungen.index", ['bestellungen' => $allBestellungen]);
     }
 
     /**
      * Anzeigen des Formulars für eine neue Bestellung 
      */
     public function NeueBestellung() {
-    	$kategorien = Kategorie::with('produkte')->get();
+        $kategorien = Kategorie::with('produkte')->get();
         $tische = Tisch::all();
-    	$selectedAuswahl = [];
+        $selectedAuswahl = [];
 
-    	foreach($kategorien as $kategorie) {
+        foreach ($kategorien as $kategorie) {
             // Zeige nur Kategorien mit Produkten
-            if(count($kategorie->produkte) > 0) {
-        		$produkte = Produkt::where('category', $kategorie->id)->get();
-        		$selectedAuswahl[$kategorie->name] = ["id" => $kategorie->id, "name" => $kategorie->name, "produkte" => $produkte];
+            if (count($kategorie->produkte) > 0) {
+                $produkte = Produkt::where('category', $kategorie->id)->where('active', true)->get();
+                $selectedAuswahl[$kategorie->name] = ["id" => $kategorie->id, "name" => $kategorie->name, "produkte" => $produkte];
             }
-    	}
+        }
 
-    	return view('bestellungen.bestellung', ['selectedCatsAndProds' => $selectedAuswahl, 'tische' => $tische]);
+        return view('bestellungen.bestellung', ['selectedCatsAndProds' => $selectedAuswahl, 'tische' => $tische]);
     }
 
     /**
      * Bestellung mit spezieller ID stornieren
      * @param integer $id ID der Bestellung zum stornieren
      */
-    public function BestellungStornieren($id) { 
+    public function BestellungStornieren($id) {
         $bestellung = Bestellung::find($id);
-        if($bestellung != null) {
+        if ($bestellung != null) {
             BestellungProdukt::where('Bestellung_ID', $id)->delete();
             $kundeB = KundeBestellung::where('Bestellung_ID', $id)->first();
-            
+
             // Prüfe ob Kunde keine weiteren Bestellungen zum Abschließen hat
 
-            if(Kunde::offeneBestellungenCount($kundeB->Kunden_ID) <= 1) {
+            if (Kunde::offeneBestellungenCount($kundeB->Kunden_ID) <= 1) {
                 $kunde = Kunde::find($kundeB->Kunden_ID);
                 $kunde->Abgerechnet = true;
                 $kunde->save();
@@ -94,17 +93,16 @@ class BestellungenController extends AuthController
      */
     public function BestellungErledigen($id) {
         $bestellung = Bestellung::find($id);
-        if($bestellung != null) {
+        if ($bestellung != null) {
             $bestellung->Erledigt = true;
             $bestellung->save();
-            
+
             $client = new Client(new Version2X(config('app.node_addr'), []));
             $client->initialize();
             $client->emit('order closed', [
                 'id' => $id
             ]);
             $client->close();
-
         }
 
         return redirect(route('Bestellungen'));
@@ -116,13 +114,13 @@ class BestellungenController extends AuthController
      */
     public function BestellungProduktEntfernen($id) {
         $produkt = BestellungProdukt::find($id);
-        if($produkt != null) {
+        if ($produkt != null) {
             $produkt->delete();
 
             // Prüfe, ob es das letzte Produkt war
             $order_id = $produkt->Bestellung_ID;
             $order = Bestellung::with(['produkte'])->where('id', '=', $order_id)->first();
-            if(count($order->produkte) == 0) {
+            if (count($order->produkte) == 0) {
                 $order->delete();
             }
         }
@@ -138,7 +136,7 @@ class BestellungenController extends AuthController
      */
     public function BestellungProduktKostenlos($id) {
         $produkt = BestellungProdukt::find($id);
-        if($produkt != null) {
+        if ($produkt != null) {
             $produkt->Preis = 0;
             $produkt->save();
         }
@@ -158,23 +156,23 @@ class BestellungenController extends AuthController
 
         // Prüfe ob Produkte enthalten sind
         $produkteAnzahl = 0;
-        foreach($request->input('anzahl') as $produkt => $anzahl) {
-            if(!$anzahl <= 0) {
+        foreach ($request->input('anzahl') as $produkt => $anzahl) {
+            if (!$anzahl <= 0) {
                 $produkteAnzahl += $anzahl;
             }
         }
 
-        if(!$produkteAnzahl > 0) {
+        if (!$produkteAnzahl > 0) {
             return redirect(route('Bestellungen'))->with('error_message', 'Die Bestellung enthielt keine Produkte');
         }
 
         // Prüfe ob Tisch existiert
         $tisch = Tisch::find($request->input('customerTable'));
-        if($tisch->count() !== null) {
+        if ($tisch->count() !== null) {
             // Prüfe ob Tisch bereits besetzt ist
-            if(Tisch::IsTableBlocked($tisch->id)) {
+            if (Tisch::IsTableBlocked($tisch->id)) {
                 $kundeId = Tisch::GetKundeFromTable($tisch->id);
-                if($kundeId !== 0) {
+                if ($kundeId !== 0) {
                     $kunde = Kunde::find($kundeId);
                 } else {
                     throw new Exception("Error Processing Request", 1);
@@ -188,18 +186,26 @@ class BestellungenController extends AuthController
             $kunde->save();
 
             // Erstelle eine neue Bestellung
-            if($produkteAnzahl > 0) {
+            if ($produkteAnzahl > 0) {
                 $bestellung = new Bestellung;
                 $bestellung->Erledigt = false;
                 $bestellung->save();
 
-                foreach($request->input('anzahl') as $produkt => $anzahl) {
-                    for ($i=0; $i < $anzahl; $i++) { 
+                foreach ($request->input('anzahl') as $produkt => $anzahl) {
+                    for ($i = 0; $i < $anzahl; $i++) {
                         $bestellungProdukte = new BestellungProdukt;
                         $bestellungProdukte->Bestellung_ID = $bestellung->id;
                         $bestellungProdukte->Produkt_ID = $produkt;
+
+                        // Aktualisiere Warenwirtschaft-Anzahl
+                        if (\App\Models\SiteSettings::all()->first()->module_warenwirtschaft) {
+                            $wawi_produkt = Produkt::find($produkt);
+                            $wawi_produkt->available -= 1;
+                            $wawi_produkt->save();
+                        }
+
                         // Hole den Preis zur Kaufzeit
-                        $produktPreis = Produkt::find($produkt); 
+                        $produktPreis = Produkt::find($produkt);
                         $bestellungProdukte->Preis = $produktPreis->price;
                         $bestellungProdukte->save();
 
@@ -209,7 +215,7 @@ class BestellungenController extends AuthController
                             "product_price" => number_format($bestellungProdukte->Preis, 2, ',', '.'),
                             "product_name" => Produkt::find($produkt)->name,
                         ];
-                    }   
+                    }
                 }
 
                 $kundeBestellung = new KundeBestellung;
@@ -244,12 +250,12 @@ class BestellungenController extends AuthController
      */
     public function Abrechnung() {
         $bestellungen = Kunde::with(['bestelltes' => function($q) {
-            $q->where('Erledigt', '=', true);
-        }, 'bestelltes.produkte', 'tisch'])->where([
-            ['Abgerechnet', '=', false],
-        ])->get();
+                        $q->where('Erledigt', '=', true);
+                    }, 'bestelltes.produkte', 'tisch'])->where([
+                    ['Abgerechnet', '=', false],
+                ])->get();
 
-        return view("bestellungen.abrechnung", ["tisch_bestellungen"=>$bestellungen]);
+        return view("bestellungen.abrechnung", ["tisch_bestellungen" => $bestellungen]);
     }
 
     /**
@@ -258,12 +264,11 @@ class BestellungenController extends AuthController
      */
     public function AbrechnungOpen($id) {
         $tisch = Tisch::find($id);
-        if($tisch !== null) {
+        if ($tisch !== null) {
             $kunden = Kunde::where("Tisch_ID", "=", $tisch->id)->with(['bestelltes', 'bestelltes.produkte', 'tisch'])->get();
-            return view('bestellungen.bezahlen', ['kunden'=>$kunden]);
+            return view('bestellungen.bezahlen', ['kunden' => $kunden]);
         } else {
             throw new Exception("Error Processing Request", 1);
-            
         }
     }
 
@@ -272,7 +277,7 @@ class BestellungenController extends AuthController
      * @todo Programmieren der Aufteilung von Bestellungen
      */
     public function AbrechnungTeilen($bestellung_produkte) {
-
+        
     }
 
     /**
@@ -280,6 +285,7 @@ class BestellungenController extends AuthController
      * @todo Programmieren des Abrechnungs-Abschlusses
      */
     public function AbrechnungClose($customer_id) {
-
+        
     }
+
 }

@@ -9,75 +9,104 @@ use App\Models\Produkte\Produkt;
 use App\Models\Produkte\Kategorie;
 use App\Models\Bestellungen\BestellungProdukt;
 
-class ProduktController extends AuthController
-{
-    public function index() {
-    	$categorys = Kategorie::all();
-    	$produkte = Produkt::all();
+class ProduktController extends AuthController {
 
-    	return view("verwaltung.produkte.index", ["kategorien" => $categorys, "produkte"=>$produkte]);
+    public function index() {
+        $categorys = Kategorie::all();
+        $produkte = Produkt::all();
+
+        return view("verwaltung.produkte.index", ["kategorien" => $categorys, "produkte" => $produkte]);
     }
 
     public function erstellen() {
-    	$categorys = Kategorie::all();
+        $categorys = Kategorie::all();
 
-    	return view("verwaltung.produkte.erstellen", ['isNewCategoryDataset' => true, "kategorien" => $categorys]);
+        return view("verwaltung.produkte.erstellen", ['isNewCategoryDataset' => true, "kategorien" => $categorys]);
     }
 
     public function erstellenSpeichern(ProduktSpeichern $request) {
-    	$produkt = new Produkt;
-    	$produkt->name = $request->input('productName');
-    	$produkt->description = $request->input('productDescription');
-    	$produkt->price = $request->input('productPrice');
-    	$produkt->category = $request->input('productCategory');
-    	$produkt->save();
+        $produkt = new Produkt;
+        $produkt->name = $request->input('productName');
+        $produkt->description = $request->input('productDescription');
+        $produkt->price = $request->input('productPrice');
+        $produkt->category = $request->input('productCategory');
+        // \App\Models\SiteSettings::all()->first()->module_warenwirtschaft;
+        $produkt->available = $request->input('productAvailable');
 
-    	return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde gespeichert');
+        if ($request->input('productInfinite') != null) {
+            $produkt->infinite = true;
+        } else {
+            $produkt->infinite = false;
+        }
+
+        if ($request->input('productActive') != null) {
+            $produkt->active = true;
+        } else {
+            $produkt->active = false;
+        }
+
+        $produkt->save();
+
+        return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde gespeichert');
     }
 
     public function bearbeiten($id) {
-    	$produkt = Produkt::where('id', $id)->first();
-    	$categorys = Kategorie::all();
+        $produkt = Produkt::where('id', $id)->first();
+        $categorys = Kategorie::all();
 
-    	if($produkt->count() >= 1) {
-    		return view("verwaltung.produkte.erstellen", ['product'=>$produkt, 'isNewCategoryDataset' => false, "kategorien" => $categorys]);
-    	} else {
-    		return redirect(route('Verwaltung.Produkte'));
-    	}
+        if ($produkt->count() >= 1) {
+            return view("verwaltung.produkte.erstellen", ['product' => $produkt, 'isNewCategoryDataset' => false, "kategorien" => $categorys]);
+        } else {
+            return redirect(route('Verwaltung.Produkte'));
+        }
     }
 
     public function bearbeitenSpeichern(ProduktSpeichern $request, $id) {
-    	$produkt = Produkt::where('id', $id)->first();
-    	if($produkt->count() >= 1) {
-    		$produkt->name = $request->input('productName');
-	    	$produkt->description = $request->input('productDescription');
-	    	$produkt->price = $request->input('productPrice');
-	    	$produkt->category = $request->input('productCategory');
-	    	$produkt->save();
-    	}
-    	
-    	return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde gespeichert');
+        $produkt = Produkt::where('id', $id)->first();
+        if ($produkt->count() >= 1) {
+            $produkt->name = $request->input('productName');
+            $produkt->description = $request->input('productDescription');
+            $produkt->price = $request->input('productPrice');
+            $produkt->category = $request->input('productCategory');
+            $produkt->available = $request->input('productAvailable');
+            if ($request->input('productInfinite') != null) {
+                $produkt->infinite = true;
+            } else {
+                $produkt->infinite = false;
+            }
+
+            if ($request->input('productActive') != null) {
+                $produkt->active = true;
+            } else {
+                $produkt->active = false;
+            }
+
+            $produkt->save();
+        }
+
+        return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde gespeichert');
     }
 
     public function entfernen($id) {
-    	$produkt = Produkt::where('id', $id)->first();
-    	if($produkt->count() >= 1) {
+        $produkt = Produkt::where('id', $id)->first();
+        if ($produkt->count() >= 1) {
             $produkte_bestellt = BestellungProdukt::where('Produkt_ID', '=', $id)->with(['bestellung', 'bestellung.produkte'])->get();
-            
-            foreach($produkte_bestellt as $produkt_bestellt) {
+
+            foreach ($produkte_bestellt as $produkt_bestellt) {
                 $bestellung = $produkt_bestellt->bestellung;
-                if(count($bestellung->produkte) == 1) {
+                if (count($bestellung->produkte) == 1) {
                     $bestellung->delete();
                 }
 
                 $produkt_bestellt->delete();
             }
 
-	    $produkt->delete();
+            $produkt->delete();
 
             return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde entfernt');
-    	}
+        }
 
-    	return redirect(route('Verwaltung.Produkte'));
+        return redirect(route('Verwaltung.Produkte'));
     }
+
 }

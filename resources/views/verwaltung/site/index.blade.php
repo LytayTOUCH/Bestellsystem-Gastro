@@ -36,6 +36,18 @@
                         </span>
                         @endif
                     </div>
+                    
+                    <h3>Module</h3>
+                    <table class="table table-secondary">
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="module_warenwirtschaft" {{ $setting->module_warenwirtschaft ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                Warenwirtschaft (Produktanzahlen)
+                            </td>
+                        </tr>
+                    </table>
                     <div class="form-group">
                         <input type="submit" value="Speichern" class="btn btn-lg btn-success btn-block">
                     </div>
