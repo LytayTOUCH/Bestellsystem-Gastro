@@ -71,6 +71,10 @@
                                                    href="{{route('Bestellungen.Abrechnung.Bearbeiten', ['id'=>$kunde->tisch->id])}}">Abrechnen</a>
                                             </td>
                                         </tr>
+
+                                        <?php
+                                        $summe = 0;
+                                        ?>
                                     @endif
                                 @endforeach
                             </table>
