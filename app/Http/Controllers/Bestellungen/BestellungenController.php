@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Bestellungen;
 
+use App\Models\Helper\UserLogs;
 use Illuminate\Http\Request;
 use \App\Http\Controllers\AuthController;
 use \App\Models\Bestellungen\KundeBestellung;
@@ -13,6 +14,7 @@ use \App\Models\Produkte\Kategorie;
 use \App\Models\Tisch;
 use ElephantIO\Client;
 use ElephantIO\Engine\SocketIO\Version2X;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @category  Bestellungen
@@ -34,6 +36,8 @@ class BestellungenController extends AuthController {
             $allBestellungen[$bestellung->id] = ['tisch' => $kunde->Tisch_ID, 'kunde' => $kunde->id, 'zeit' => $bestellung->created_at, 'produkte' => $produkte];
         }
 
+        UserLogs::create(Auth::id(), 'Bestellung.Dashboard', 'Hat die Bestellübersicht geöffnet');
+
         return view("bestellungen.index", ['bestellungen' => $allBestellungen]);
     }
 
@@ -52,6 +56,8 @@ class BestellungenController extends AuthController {
                 $selectedAuswahl[$kategorie->name] = ["id" => $kategorie->id, "name" => $kategorie->name, "produkte" => $produkte];
             }
         }
+
+        UserLogs::create(Auth::id(), 'Bestellung.Erstellen', 'Hat das Formular für eine neue Bestellung geöffnet');
 
         return view('bestellungen.bestellung', ['selectedCatsAndProds' => $selectedAuswahl, 'tische' => $tische]);
     }
@@ -84,6 +90,9 @@ class BestellungenController extends AuthController {
             ]);
             $client->close();
         }
+
+        UserLogs::create(Auth::id(), 'Bestellung.Stornieren', 'Hat die Bestellung (ID: '.$id.') storniert');
+
         return redirect(route('Bestellungen'));
     }
 
@@ -105,6 +114,8 @@ class BestellungenController extends AuthController {
             $client->close();
         }
 
+        UserLogs::create(Auth::id(), 'Bestellung.Erledigen', 'Hat die Bestellung (ID: '.$id.') als erledigt markiert');
+
         return redirect(route('Bestellungen'));
     }
 
@@ -123,6 +134,8 @@ class BestellungenController extends AuthController {
             if (count($order->produkte) == 0) {
                 $order->delete();
             }
+
+            UserLogs::create(Auth::id(), 'Bestellung.ProduktEntfernen', 'Hat ein Produkt aus der Bestellung (ID: '.$id.') entfernt');
         }
 
         // @todo NodeJS
@@ -142,6 +155,7 @@ class BestellungenController extends AuthController {
         }
 
         // @todo NodeJS
+        UserLogs::create(Auth::id(), 'Bestellung.ProduktKostenlos', 'Hat ein Produkt aus der Bestellung (ID: '.$id.') kostenlos gemacht');
 
         return redirect()->back();
     }
@@ -242,6 +256,8 @@ class BestellungenController extends AuthController {
         } else {
             throw new BadMethodCallException("Nicht implementierte Funktion");
         }
+
+        UserLogs::create(Auth::id(), 'Bestellung.Erstellen.Speichern', 'Hat eine neue Bestellung aufgenommen (ID: '.$bestellung->id.')');
         return redirect(route('Bestellungen'));
     }
 
@@ -254,6 +270,8 @@ class BestellungenController extends AuthController {
                     }, 'bestelltes.produkte', 'tisch'])->where([
                     ['Abgerechnet', '=', false],
                 ])->get();
+
+        UserLogs::create(Auth::id(), 'Bestellung.Abrechnung', 'Hat die Übersicht aller Abrechnungen geöffnet');
 
         return view("bestellungen.abrechnung", ["tisch_bestellungen" => $bestellungen]);
     }
@@ -269,6 +287,7 @@ class BestellungenController extends AuthController {
 
         $tisch = Tisch::all()->where('id', '=', $id)->first();
         $tisch->Besetzt = false;
+        UserLogs::create(Auth::id(), 'Bestellung.AbrechnungEnde', 'Hat die Abrechnung zum Tisch (ID: '.$id.') abgeschlossen');
 
         return redirect(route('Bestellungen.Abrechnung'))->with('message', 'Kunde wurde erfolgreich abgerechnet!');
     }
