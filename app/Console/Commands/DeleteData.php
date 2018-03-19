@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Helper\UserLogs;
 use Illuminate\Console\Command;
 use \App\Models\Bestellungen\KundeBestellung;
 use \App\Models\Bestellungen\BestellungProdukt;
@@ -48,6 +49,7 @@ class DeleteData extends Command
         KundeBestellung::truncate();
         BestellungProdukt::truncate();
         Bestellung::truncate();
+        UserLogs::truncate();
         Kunde::truncate();
         Tisch::where('Besetzt', true)->update(['Besetzt' => false]);
 

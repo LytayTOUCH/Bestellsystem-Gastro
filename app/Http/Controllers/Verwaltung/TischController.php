@@ -3,21 +3,24 @@
 namespace App\Http\Controllers\Verwaltung;
 
 use App\Http\Controllers\AuthController;
+use App\Models\Helper\UserLogs;
 use Illuminate\Http\Request;
 use App\Http\Requests\TischSpeichern;
 use App\Models\Tisch;
+use Illuminate\Support\Facades\Auth;
 
 class TischController extends AuthController
 {
     public function index()
     {
     	$tische = Tisch::all();
-
+        UserLogs::create(Auth::id(), 'Verwaltung.Tische.Dashboard', 'Hat die Tischkonfiguration anzeigen lassen');
     	return view('verwaltung.tische.index', ['tische' => $tische]);
     }
 
     public function erstellen() {
-    	return view('verwaltung.tische.erstellen');
+        UserLogs::create(Auth::id(), 'Verwaltung.Tische.Erstellen', 'Hat das Formular zum Erstellen eines Tisches aufgerufen');
+        return view('verwaltung.tische.erstellen');
     }
 
 
@@ -25,8 +28,9 @@ class TischController extends AuthController
     	$tisch = new Tisch;
     	$tisch->Name = $request->input('Name');
     	$tisch->save();
+        UserLogs::create(Auth::id(), 'Verwaltung.Tische.Erstellen.Speichern', 'Hat einen Tisch erstellt "'.$tisch->Name.'" (ID: '.$tisch->id.')');
 
-    	return redirect(route('Verwaltung.Tische'));
+        return redirect(route('Verwaltung.Tische'));
     }
 
     public function reset($id) {
@@ -36,7 +40,8 @@ class TischController extends AuthController
     		$tisch->save();
     	}
 
-    	return redirect(route('Verwaltung.Tische'))->with('message', "Der Tisch wurde zurückgesetzt");
+        UserLogs::create(Auth::id(), 'Verwaltung.Tische.Reset', 'Hat den Tisch "'.$tisch->Name.'" mit der ID '.$id.' erstellt');
+        return redirect(route('Verwaltung.Tische'))->with('message', "Der Tisch wurde zurückgesetzt");
     }
 
     public function reset_all() {
@@ -44,15 +49,18 @@ class TischController extends AuthController
     		'Besetzt' => false,
     	]);
 
-    	return redirect(route('Verwaltung.Tische'))->with('message', "Alle Tische wurden zurückgesetzt");
+        UserLogs::create(Auth::id(), 'Verwaltung.Tische.ResetAll', 'Hat alle Tische zurückgesetzt');
+        return redirect(route('Verwaltung.Tische'))->with('message', "Alle Tische wurden zurückgesetzt");
     }
 
     public function entfernen($id) {
     	$tisch = Tisch::find($id);
-    	if($tisch !== null) {
-    		$tisch->delete();
-    	}
+        UserLogs::create(Auth::id(), 'Verwaltung.Tische.Entfernen', 'Hat den Tisch "'.$tisch->Name.'" mit der ID '.$id.' gelöscht');
 
-    	return redirect(route('Verwaltung.Tische'));
+        if($tisch !== null) {
+            $tisch->delete();
+        }
+
+        return redirect(route('Verwaltung.Tische'));
     }
 }

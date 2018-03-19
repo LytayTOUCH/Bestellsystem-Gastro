@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Verwaltung;
 use App\Http\Controllers\AuthController;
+use App\Models\Helper\UserLogs;
+use Carbon\Carbon;
 use Github\Client;
 use Artisan;
 use Illuminate\Http\Request;
@@ -51,6 +53,12 @@ class EntwicklerController extends AuthController
             }
         }
         return view('verwaltung.entwickler.changelog', ['commits' => $commits]);
+    }
+
+    public function logs() {
+        Carbon::setLocale('de');
+	    $logs = UserLogs::with('user')->where('created_at', '>=', Carbon::now()->subDay())->orderBy('id', 'DESC')->get();
+	    return view('verwaltung.entwickler.logs', ['logs'=>$logs]);
     }
 
     public function update()

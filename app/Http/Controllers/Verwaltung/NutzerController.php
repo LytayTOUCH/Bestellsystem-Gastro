@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Verwaltung;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Requests\NutzerSpeichern;
+use App\Models\Helper\UserLogs;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use Auth;
@@ -15,11 +16,14 @@ class NutzerController extends AuthController
     		["id", "!=", 1],
     		["id", "!=", Auth::user()->id]
     	])->get();
-    	return view('verwaltung.nutzer.index', ['nutzer' => $nutzer]);
+        UserLogs::create(Auth::id(), 'Verwaltung.Nutzer.Dashboard', 'Hat sich alle Benutzer anzeigen lassen');
+
+        return view('verwaltung.nutzer.index', ['nutzer' => $nutzer]);
     }
 
     public function erstellen() {
-    	return view('verwaltung.nutzer.verwalten', ['newDataSet' => true]);
+        UserLogs::create(Auth::id(), 'Verwaltung.Nutzer.Erstellen', 'Hat das Formular für die Erstellung eines Benutzer geöffnet');
+        return view('verwaltung.nutzer.verwalten', ['newDataSet' => true]);
     }    
 
     public function erstellenSpeichern(NutzerSpeichern $request) {
@@ -29,7 +33,10 @@ class NutzerController extends AuthController
     	$user->email = $request->input('email');
     	$user->password = Hash::make($request->input('password'));
     	$user->save();
-    	return redirect(route("Verwaltung.Nutzer"))->with('message', 'Der Benutzer wurde gespeichert');
+
+        UserLogs::create(Auth::id(), 'Verwaltung.Nutzer.Erstellen.Speichern', 'Hat den Benutzer "'.$user->name.'" mit der ID '.$user->id.' erstellt');
+
+        return redirect(route("Verwaltung.Nutzer"))->with('message', 'Der Benutzer wurde gespeichert');
     }
 
     public function bearbeiten($id) {
@@ -38,7 +45,9 @@ class NutzerController extends AuthController
     		return view('verwaltung.nutzer.verwalten', ['newDataSet' => false, 'user' => $user]);
     	}
 
-    	return redirect(route("Verwaltung.Nutzer"));
+        UserLogs::create(Auth::id(), 'Verwaltung.Nutzer.Bearbeiten', 'Hat den Benutzer "'.$user->name.'" mit der ID '.$user->id.' in der Bearbeitung geöffnet');
+
+        return redirect(route("Verwaltung.Nutzer"));
     }   
 
     public function bearbeitenSpeichern(NutzerSpeichern $request, $id) {
@@ -51,6 +60,7 @@ class NutzerController extends AuthController
 	    	if($request->input('password') != "") {
 		    	$user->password = Hash::make($request->input('password'));
 		    }
+            UserLogs::create(Auth::id(), 'Verwaltung.Nutzer.Bearbeiten.Speichern', 'Hat den Benutzer "'.$user->name.'" mit der ID '.$user->id.' bearbeitet');
 
 	    	$user->save();
 
@@ -63,7 +73,8 @@ class NutzerController extends AuthController
     public function entfernen($id) {
     	$user = User::find($id);
     	if($user !== null && $id!=Auth::user()->id) {
-    		$user->delete();
+            UserLogs::create(Auth::id(), 'Verwaltung.Nutzer.Entfernen', 'Hat den Benutzer "'.$user->name.'" mit der ID '.$user->id.' gelöscht');
+            $user->delete();
     	} else {
     		return redirect(route("Verwaltung.Nutzer"))->with('error_message', 'Der Benutzer kann nicht gelöscht werden!');
     	}

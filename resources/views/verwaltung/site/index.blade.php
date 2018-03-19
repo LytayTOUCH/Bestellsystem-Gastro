@@ -47,6 +47,14 @@
                                 Warenwirtschaft (Produktanzahlen)
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="module_logging" {{ $setting->module_logging ? 'checked' : '' }}>
+                            </td>
+                            <td>
+                                Datenaufzeichnung (Logging)
+                            </td>
+                        </tr>
                     </table>
                     <div class="form-group">
                         <input type="submit" value="Speichern" class="btn btn-lg btn-success btn-block">

@@ -61,9 +61,14 @@ Route::prefix('verwaltung')->group(function() {
 	Route::prefix('entwickler')->group(function () {
 		Route::get('/', 'Verwaltung\EntwicklerController@index')->name('Verwaltung.Entwickler');
 		Route::get('/update', 'Verwaltung\EntwicklerController@update')->name('Verwaltung.Entwickler.Update');
-		Route::get('/changelog', 'Verwaltung\EntwicklerController@changelog')->name('Verwaltung.Entwickler.Changelog');
-		Route::post('/issue', 'Verwaltung\EntwicklerController@CreateIssue')->name('Verwaltung.Entwickler.CreateIssue');
-	});
+        Route::get('/changelog', 'Verwaltung\EntwicklerController@changelog')->name('Verwaltung.Entwickler.Changelog');
+        Route::post('/issue', 'Verwaltung\EntwicklerController@CreateIssue')->name('Verwaltung.Entwickler.CreateIssue');
+
+        // Logging-Modul
+        if(\App\Models\SiteSettings::all()->first()->module_logging) {
+            Route::get('/logs', 'Verwaltung\EntwicklerController@logs')->name('Verwaltung.Entwickler.Logs');
+        }
+    });
 
 	// Systemdaten
 	Route::prefix('daten')->group(function () {

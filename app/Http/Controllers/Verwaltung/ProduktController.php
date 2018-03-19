@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Verwaltung;
 
 use App\Http\Requests\ProduktSpeichern;
 use App\Http\Controllers\AuthController;
+use App\Models\Helper\UserLogs;
 use Illuminate\Http\Request;
 use App\Models\Produkte\Produkt;
 use App\Models\Produkte\Kategorie;
 use App\Models\Bestellungen\BestellungProdukt;
+use Illuminate\Support\Facades\Auth;
 
 class ProduktController extends AuthController {
 
@@ -15,12 +17,14 @@ class ProduktController extends AuthController {
         $categorys = Kategorie::all();
         $produkte = Produkt::all();
 
+        UserLogs::create(Auth::id(), 'Verwaltung.Produkte.Dashboard', 'Hat sich alle Produkte anzeigen lassen');
         return view("verwaltung.produkte.index", ["kategorien" => $categorys, "produkte" => $produkte]);
     }
 
     public function erstellen() {
         $categorys = Kategorie::all();
 
+        UserLogs::create(Auth::id(), 'Verwaltung.Produkte.Erstellen', 'Hat das Formular für die Erstellung eines Produktes geöffnet');
         return view("verwaltung.produkte.erstellen", ['isNewCategoryDataset' => true, "kategorien" => $categorys]);
     }
 
@@ -46,6 +50,7 @@ class ProduktController extends AuthController {
         }
 
         $produkt->save();
+        UserLogs::create(Auth::id(), 'Verwaltung.Produkte.Erstellen.Speichern', 'Hat das Produkt '.$produkt->name.' mit der ID '.$produkt->id.' erstellt');
 
         return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde gespeichert');
     }
@@ -55,8 +60,10 @@ class ProduktController extends AuthController {
         $categorys = Kategorie::all();
 
         if ($produkt->count() >= 1) {
+            UserLogs::create(Auth::id(), 'Verwaltung.Produkte.Bearbeiten.Ansicht', 'Hat sich das Produkt "'.$produkt->name.'"" mit der ID '.$id.' anzeigen lassen');
             return view("verwaltung.produkte.erstellen", ['product' => $produkt, 'isNewCategoryDataset' => false, "kategorien" => $categorys]);
         } else {
+            UserLogs::create(Auth::id(), 'Verwaltung.Produkte.Bearbeiten.Ansicht', 'Hat sich das Produkt "'.$produkt->name.'"" mit der ID '.$id.' anzeigen lassen wollen (Ohne Erfolg)');
             return redirect(route('Verwaltung.Produkte'));
         }
     }
@@ -81,7 +88,11 @@ class ProduktController extends AuthController {
                 $produkt->active = false;
             }
 
+            UserLogs::create(Auth::id(), 'Verwaltung.Produkte.Bearbeiten.Speichern', 'Hat das Produkt "'.$produkt->name.'"" mit der ID '.$id.' bearbeitet');
+
             $produkt->save();
+        } else {
+            UserLogs::create(Auth::id(), 'Verwaltung.Produkte.Bearbeiten.Speichern', 'Hat das Produkt "'.$produkt->name.'"" mit der ID '.$id.' bearbeiten wollen (Ohne Erfolg: Produkt nicht vorhanden)');
         }
 
         return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde gespeichert');
@@ -101,6 +112,7 @@ class ProduktController extends AuthController {
                 $produkt_bestellt->delete();
             }
 
+            UserLogs::create(Auth::id(), 'Verwaltung.Produkte.Entfernen', 'Hat das Produkt "'.$produkt->name.'"" mit der ID '.$id.' entfernt');
             $produkt->delete();
 
             return redirect(route('Verwaltung.Produkte'))->with('message', 'Das Produkt wurde entfernt');
