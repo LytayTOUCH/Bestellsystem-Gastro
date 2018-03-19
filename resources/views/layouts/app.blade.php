@@ -24,7 +24,7 @@
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
-    <body>
+    <body class="{{\App\Models\SiteSettings::getBackgroundModus()}}-background">
         <div id="app">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="{{ url('/') }}">{{ App\Models\SiteSettings::first()->site_name }}</a>

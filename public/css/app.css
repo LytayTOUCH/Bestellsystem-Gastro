@@ -1,3 +1,22 @@
 .order:not(:last-child) {
 	margin-bottom: 12px;
 }
+
+nav.nav a {
+    color: #00efb2;
+}
+
+.light-module-text {
+    color: black;
+}
+
+.dark-module-text {
+    color: #00efb2;
+}
+
+.light-background {
+    background-image: url("../storage/static/light-bg.jpg");
+}
+.dark-background {
+    background-image: url("../storage/static/dark-bg.jpg");
+}

@@ -38,12 +38,12 @@
                     </div>
                     
                     <h3>Module</h3>
-                    <table class="table table-secondary">
+                    <table class="table">
                         <tr>
                             <td>
                                 <input type="checkbox" name="module_warenwirtschaft" {{ $setting->module_warenwirtschaft ? 'checked' : '' }}>
                             </td>
-                            <td>
+                            <td class="{{\App\Models\SiteSettings::getBackgroundModus()}}-module-text">
                                 Warenwirtschaft (Produktanzahlen)
                             </td>
                         </tr>
@@ -51,7 +51,7 @@
                             <td>
                                 <input type="checkbox" name="module_logging" {{ $setting->module_logging ? 'checked' : '' }}>
                             </td>
-                            <td>
+                            <td class="{{\App\Models\SiteSettings::getBackgroundModus()}}-module-text">
                                 Datenaufzeichnung (Logging)
                             </td>
                         </tr>
