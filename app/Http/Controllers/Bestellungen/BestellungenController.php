@@ -262,30 +262,15 @@ class BestellungenController extends AuthController {
      * Öffnen einer Abrechnung zu einem Tisch
      * @param integer $id ID des Tisches zur Abrechnung
      */
-    public function AbrechnungOpen($id) {
-        $tisch = Tisch::find($id);
-        if ($tisch !== null) {
-            $kunden = Kunde::where("Tisch_ID", "=", $tisch->id)->with(['bestelltes', 'bestelltes.produkte', 'tisch'])->get();
-            return view('bestellungen.bezahlen', ['kunden' => $kunden]);
-        } else {
-            throw new Exception("Error Processing Request", 1);
-        }
-    }
+    public function AbrechnungClose($id) {
+        $kunde = Kunde::all()->where('Tisch_ID', '=', $id)->last();
+        $kunde->Abgerechnet = true;
+        $kunde->save();
 
-    /**
-     * Aufteilen von Produkten auf mehrere Kunden
-     * @todo Programmieren der Aufteilung von Bestellungen
-     */
-    public function AbrechnungTeilen($bestellung_produkte) {
-        
-    }
+        $tisch = Tisch::all()->where('id', '=', $id)->first();
+        $tisch->Besetzt = false;
 
-    /**
-     * Abrechnung zu einem Kunden / bzw. eines Tisches abschließen
-     * @todo Programmieren des Abrechnungs-Abschlusses
-     */
-    public function AbrechnungClose($customer_id) {
-        
+        return redirect(route('Bestellungen.Abrechnung'))->with('message', 'Kunde wurde erfolgreich abgerechnet!');
     }
 
 }

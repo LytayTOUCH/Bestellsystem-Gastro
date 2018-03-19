@@ -23,12 +23,12 @@
                 <h3>{{ $kategorie->name }}</h3>
                 <table class="table">
                     <tr>
-                        <th class="col-md-4">Name</th>
+                        <th class="col-md-3">Name</th>
                         @if(\App\Models\SiteSettings::all()->first()->module_warenwirtschaft)
                         <th class="col-md-2">Preis</th>
                         <th class="col-md-2">Verfügbar</th>
                         @else
-                        <th class="col-md-4">Preis</th>
+                        <th class="col-md-2">Preis</th>
                         @endif
                         <th class="col-md-4">Aktionen</th>
                     </tr>
@@ -44,7 +44,8 @@
                         @endif
                         @endif
                         <td>
-                            <a href="{{ route('Verwaltung.Produkte.Bearbeiten', ['id'=>$produkt->id]) }}">Bearbeiten</a> <a href="{{ route('Verwaltung.Produkte.Entfernen', ['id'=>$produkt->id]) }}" class="text-danger">Löschen</a>
+                            <a href="{{ route('Verwaltung.Produkte.Bearbeiten', ['id'=>$produkt->id]) }}">Bearbeiten</a>
+                            <a href="{{ route('Verwaltung.Produkte.Entfernen', ['id'=>$produkt->id]) }}" class="text-danger">Löschen</a>
                         </td>
                     </tr>
                     @endforeach
